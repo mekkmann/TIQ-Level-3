@@ -1,21 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using Random = System.Random;
 
 namespace MonsterQuest
 {
-    public class DiceHelper : MonoBehaviour
+    public static class DiceHelper
     {
-        // Start is called before the first frame update
-        void Start()
+        static Random random = new();
+        public static int Roll(int numberOfRolls, int diceSides, int fixedBonus = 0)
         {
-        
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-        
+            int total = fixedBonus;
+            for (int i = 0; i < numberOfRolls; i++)
+            {
+                total += random.Next(1, diceSides + 1);
+            }
+            return total;
         }
     }
 }

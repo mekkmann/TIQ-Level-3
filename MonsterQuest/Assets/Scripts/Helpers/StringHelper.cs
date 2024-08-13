@@ -1,21 +1,31 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Linq;
 
 namespace MonsterQuest
 {
-    public class StringHelper : MonoBehaviour
+    public static class StringHelper
     {
-        // Start is called before the first frame update
-        void Start()
+        public static string JoinWithAnd(IEnumerable<string> items, bool useSerialComma = true)
         {
-        
-        }
+            int itemCount = items.Count();
 
-        // Update is called once per frame
-        void Update()
-        {
-        
+            if (itemCount == 0) return "";
+            if (itemCount == 1) return items.First();
+            if (itemCount == 2) return string.Join(" and ", items);
+
+            List<string> charactersCopy = new(items);
+
+            if (useSerialComma)
+            {
+                charactersCopy[itemCount - 1] = $"and {charactersCopy[itemCount - 1]}";
+            }
+            else
+            {
+                charactersCopy[itemCount - 2] = $"{charactersCopy[itemCount - 2]} and {charactersCopy[itemCount - 1]}";
+                charactersCopy.RemoveAt(itemCount - 1);
+            }
+
+            return string.Join(", ", charactersCopy);
         }
     }
 }

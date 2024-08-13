@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
@@ -12,11 +11,11 @@ namespace MonsterQuest
         // Start is called before the first frame update
         void Start()
         {
-            Console.WriteLine($"Fighters {string.Join(", ", characters)} descend into the dungeon.\n");
-            SimulateCombat(characters, "orc", DiceRoll(2, 8, 6), 10);
-            if (characters.Count > 0) SimulateCombat(characters, "azer", DiceRoll(6, 8, 12), 18);
-            if (characters.Count > 0) SimulateCombat(characters, "troll", DiceRoll(8, 10, 40), 16);
-            if (characters.Count > 0) Console.WriteLine($"After three grueling battles, the heroes {String.Join(", ", characters)} return from the dungeons to live another day.");
+            Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characters)} descend into the dungeon.\n");
+            SimulateCombat(characters, "orc", DiceHelper.Roll(2, 8, 6), 10);
+            if (characters.Count > 0) SimulateCombat(characters, "azer", DiceHelper.Roll(6, 8, 12), 18);
+            if (characters.Count > 0) SimulateCombat(characters, "troll", DiceHelper.Roll(8, 10, 40), 16);
+            if (characters.Count > 0) Console.WriteLine($"After three grueling battles, the heroes {StringHelper.JoinWithAnd(characters)} return from the dungeons to live another day.");
         }
 
         // Update is called once per frame
@@ -25,15 +24,7 @@ namespace MonsterQuest
 
         }
 
-        private int DiceRoll(int numberOfRolls, int diceSides, int fixedBonus = 0)
-        {
-            int total = fixedBonus;
-            for (int i = 0; i < numberOfRolls; i++)
-            {
-                total += random.Next(1, diceSides + 1);
-            }
-            return total;
-        }
+
 
         private void SimulateCombat(List<string> characterNames, string monsterName, int monsterHP, int savingThrowDC)
         {
@@ -45,7 +36,7 @@ namespace MonsterQuest
             {
                 foreach (var characterName in characterNames)
                 {
-                    int totalDamage = DiceRoll(2, 6);
+                    int totalDamage = DiceHelper.Roll(2, 6);
                     monstHP -= totalDamage;
                     if (monstHP <= 0)
                     {
@@ -63,7 +54,7 @@ namespace MonsterQuest
                 {
                     string chosenTarget = characterNames[random.Next(characterNames.Count)];
                     Console.WriteLine($"\nThe {monsterName} attacks {chosenTarget}");
-                    int savingThrow = DiceRoll(1, 20, 3);
+                    int savingThrow = DiceHelper.Roll(1, 20, 3);
                     if (savingThrow >= savingThrowDC)
                     {
                         Console.WriteLine($"{chosenTarget} rolls a {savingThrow} and is saved from the attack.\n");
