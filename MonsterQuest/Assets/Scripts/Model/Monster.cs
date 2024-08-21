@@ -16,7 +16,14 @@ namespace MonsterQuest
         // METHODS
         public void ReactToDamage(int damageAmount)
         {
-
+            if (HitPoints > 0)
+            {
+                HitPoints -= damageAmount;
+                if (HitPoints < 0)
+                {
+                    HitPoints = 0;
+                }
+            }
         }
     }
 }

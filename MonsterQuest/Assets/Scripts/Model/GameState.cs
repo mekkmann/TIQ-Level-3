@@ -12,7 +12,7 @@ namespace MonsterQuest
 
         public void EnterCombatWithMonster(Monster monster)
         {
-            // not yet implemented
+            Combat = new(monster);
         }
     }
 }

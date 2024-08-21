@@ -13,5 +13,11 @@ namespace MonsterQuest
         {
             Characters = initialCharacters.ToList();
         }
+
+        // METHODS
+        public void RemoveCharacter(Character character)
+        {
+            Characters.Remove(character);
+        }
     }
 }
