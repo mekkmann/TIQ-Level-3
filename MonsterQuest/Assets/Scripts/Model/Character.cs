@@ -1,14 +1,15 @@
+using UnityEngine;
+
 namespace MonsterQuest
 {
-    public class Character
+    public class Character : Creature
     {
         // PROPERTIES
-        public string DisplayName { get; private set; }
 
         // CONSTRUCTORS
-        public Character(string displayName)
+        public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat)
+            : base(hitPointsMaximum, displayName, bodySprite, sizeCat)
         {
-            DisplayName = displayName;
         }
     }
 }

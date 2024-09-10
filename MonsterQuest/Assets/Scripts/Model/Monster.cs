@@ -1,29 +1,15 @@
 namespace MonsterQuest
 {
-    public class Monster
+    public class Monster : Creature
     {
         // PROPERTIES
-        public string DisplayName { get; private set; }
-        public int HitPoints { get; private set; }
         public int SavingThrowDC { get; private set; }
         // CONSTRUCTORS
-        public Monster(string displayName, int hitPoints, int savingThrowDC)
+        public Monster(string displayName, int hitPointsMaximum, UnityEngine.Sprite bodySprite, int savingThrowDC, SizeCategory sizeCat)
+            : base(hitPointsMaximum, displayName, bodySprite, sizeCat)
         {
-            DisplayName = displayName;
-            HitPoints = hitPoints;
             SavingThrowDC = savingThrowDC;
         }
-        // METHODS
-        public void ReactToDamage(int damageAmount)
-        {
-            if (HitPoints > 0)
-            {
-                HitPoints -= damageAmount;
-                if (HitPoints < 0)
-                {
-                    HitPoints = 0;
-                }
-            }
-        }
+
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,7 @@ namespace MonsterQuest
 {
     public class CombatManager : MonoBehaviour
     {
-        public void Simulate(GameState gamestate)
+        public IEnumerator Simulate(GameState gamestate)
         {
             System.Random random = new();
             Monster monster = gamestate.Combat.Monster;
@@ -16,7 +17,8 @@ namespace MonsterQuest
                 foreach (Character character in characters)
                 {
                     int totalDamage = DiceHelper.Roll("2d6");
-                    monster.ReactToDamage(totalDamage);
+                    yield return StartCoroutine(character.Presenter.Attack());
+                    yield return StartCoroutine(monster.ReactToDamage(totalDamage));
 
                     Console.WriteLine($"{character.DisplayName} hits the {monster.DisplayName} for {totalDamage} damage. The {monster.DisplayName} has {monster.HitPoints} HP left.");
                     if (monster.HitPoints == 0)
@@ -36,7 +38,9 @@ namespace MonsterQuest
                     }
                     else
                     {
+                        yield return StartCoroutine(monster.Presenter.Attack());
                         Console.WriteLine($"{chosenTarget.DisplayName} rolls a {savingThrow} and fails to be saved. {chosenTarget.DisplayName} is killed.\n");
+                        yield return StartCoroutine(chosenTarget.ReactToDamage(10));
                         gamestate.Party.RemoveCharacter(chosenTarget);
                     }
                 }

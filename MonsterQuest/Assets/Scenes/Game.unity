@@ -679,6 +679,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38ad60ee5ec5bb4488e2b06029ce4fc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _monsterSprites:
+  - {fileID: 21300000, guid: c4e067472c3b8482c974dac88c53187a, type: 3}
+  - {fileID: 21300000, guid: 19e0e065e541e48ae99ff4998c0ee5db, type: 3}
+  - {fileID: 21300000, guid: f1fa343faea49484d895a671f5ea4a29, type: 3}
+  _characterSprites:
+  - {fileID: 21300000, guid: 956386156c63c4eee816fc62eaa55e2c, type: 3}
+  - {fileID: 21300000, guid: 05200a5325ada4d1dbd78ee326031452, type: 3}
+  - {fileID: 21300000, guid: e902acf33b7bc4135b6e250d8c77ad21, type: 3}
+  - {fileID: 21300000, guid: e12d725ecf6954adf9e66d736a1d0c22, type: 3}
 --- !u!1 &1088585501
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,9 @@ namespace MonsterQuest
         private GameState _gameState;
         private CombatManager _combatManager;
 
+        [SerializeField] private Sprite[] _monsterSprites;
+        [SerializeField] private Sprite[] _characterSprites;
+
         private void Awake()
         {
             Transform combatTransform = transform.Find("Combat");
@@ -26,10 +29,10 @@ namespace MonsterQuest
             // create party
             Party party = new(
                 new List<Character>() {
-                    new("Fighter 1"),
-                    new("Fighter 2"),
-                    new("Fighter 3"),
-                    new("Fighter 4")
+                    new("Assassin", 10, _characterSprites[0], SizeCategory.Medium),
+                    new("Mage", 10, _characterSprites[1], SizeCategory.Medium),
+                    new("Paladin", 10, _characterSprites[2], SizeCategory.Medium),
+                    new("Warrior", 10, _characterSprites[3], SizeCategory.Medium)
                     }
                 );
 
@@ -49,20 +52,20 @@ namespace MonsterQuest
                 characterDisplayNames.Add(character.DisplayName);
             }
             Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
-            Monster orc = new("orc", DiceHelper.Roll("2d8+6"), 10);
+            Monster orc = new("orc", DiceHelper.Roll("2d8+6"), _monsterSprites[0], 10, SizeCategory.Large);
             _gameState.EnterCombatWithMonster(orc);
             _combatManager.Simulate(_gameState);
 
             if (_gameState.Party.Characters.Count > 0)
             {
-                Monster azer = new("azer", DiceHelper.Roll("6d8+12"), 18);
+                Monster azer = new("azer", DiceHelper.Roll("6d8+12"), _monsterSprites[1], 18, SizeCategory.Medium);
                 _gameState.EnterCombatWithMonster(azer);
                 _combatManager.Simulate(_gameState);
             }
 
             if (_gameState.Party.Characters.Count > 0)
             {
-                Monster troll = new("troll", DiceHelper.Roll("8d10+40"), 16);
+                Monster troll = new("troll", DiceHelper.Roll("8d10+40"), _monsterSprites[2], 16, SizeCategory.Medium);
                 _gameState.EnterCombatWithMonster(troll);
                 _combatManager.Simulate(_gameState);
             }
