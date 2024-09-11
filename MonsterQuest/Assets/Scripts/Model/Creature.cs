@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace MonsterQuest
 {
-    public class Creature : MonoBehaviour
+    public class Creature
     {
         public string DisplayName { get; protected set; }
         public int HitPoints { get; protected set; }
@@ -29,11 +29,14 @@ namespace MonsterQuest
             if (HitPoints > 0)
             {
                 HitPoints -= damageAmount;
-                yield return StartCoroutine(Presenter.TakeDamage());
-                if (HitPoints < 0)
+                if (HitPoints <= 0)
                 {
                     HitPoints = 0;
-                    yield return StartCoroutine(Presenter.Die());
+                    yield return Presenter.Die();
+                }
+                else
+                {
+                    yield return Presenter.TakeDamage();
                 }
             }
         }

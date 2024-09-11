@@ -16,15 +16,16 @@ namespace MonsterQuest
             {
                 foreach (Character character in characters)
                 {
+                    if (monster.HitPoints == 0)
+                    {
+                        break;
+                    }
+
                     int totalDamage = DiceHelper.Roll("2d6");
                     yield return StartCoroutine(character.Presenter.Attack());
                     yield return StartCoroutine(monster.ReactToDamage(totalDamage));
 
                     Console.WriteLine($"{character.DisplayName} hits the {monster.DisplayName} for {totalDamage} damage. The {monster.DisplayName} has {monster.HitPoints} HP left.");
-                    if (monster.HitPoints == 0)
-                    {
-                        break;
-                    }
                 }
 
                 if (monster.HitPoints > 0)
@@ -44,6 +45,7 @@ namespace MonsterQuest
                         gamestate.Party.RemoveCharacter(chosenTarget);
                     }
                 }
+                yield return new WaitForSeconds(0.2f);
             } while (monster.HitPoints > 0 && characters.Count > 0);
 
             if (monster.HitPoints <= 0)

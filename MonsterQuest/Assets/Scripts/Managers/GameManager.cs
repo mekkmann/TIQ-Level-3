@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ namespace MonsterQuest
     {
         private GameState _gameState;
         private CombatManager _combatManager;
+        private CombatPresenter _combatPresenter;
 
         [SerializeField] private Sprite[] _monsterSprites;
         [SerializeField] private Sprite[] _characterSprites;
@@ -15,13 +17,14 @@ namespace MonsterQuest
         {
             Transform combatTransform = transform.Find("Combat");
             _combatManager = combatTransform.GetComponent<CombatManager>();
+            _combatPresenter = combatTransform.GetComponent<CombatPresenter>();
         }
 
         // Start is called before the first frame update
-        void Start()
+        IEnumerator Start()
         {
             NewGame();
-            Simulate();
+            yield return StartCoroutine(Simulate());
         }
 
         private void NewGame()
@@ -40,34 +43,41 @@ namespace MonsterQuest
             _gameState = new(party);
         }
 
-        private void Simulate()
+        private IEnumerator Simulate()
         {
             // 1. move gameplay code from start into this method DONE
             // 2. instantiate the individual monsters and enter into combat with them
             // -- 2.1 (basically set the gamestate combat to which monster we're currently fighting for saving purposes)
             // -- 2.2 use the CombatManager to simulate the combat
+            _combatPresenter.InitializeParty(_gameState);
             List<string> characterDisplayNames = new();
             foreach (Character character in _gameState.Party.Characters)
             {
                 characterDisplayNames.Add(character.DisplayName);
             }
             Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
+
             Monster orc = new("orc", DiceHelper.Roll("2d8+6"), _monsterSprites[0], 10, SizeCategory.Large);
             _gameState.EnterCombatWithMonster(orc);
-            _combatManager.Simulate(_gameState);
+            _combatPresenter.InitializeMonster(_gameState);
+
+            yield return StartCoroutine(_combatManager.Simulate(_gameState));
 
             if (_gameState.Party.Characters.Count > 0)
             {
                 Monster azer = new("azer", DiceHelper.Roll("6d8+12"), _monsterSprites[1], 18, SizeCategory.Medium);
                 _gameState.EnterCombatWithMonster(azer);
-                _combatManager.Simulate(_gameState);
+                _combatPresenter.InitializeMonster(_gameState);
+                yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }
 
             if (_gameState.Party.Characters.Count > 0)
             {
                 Monster troll = new("troll", DiceHelper.Roll("8d10+40"), _monsterSprites[2], 16, SizeCategory.Medium);
                 _gameState.EnterCombatWithMonster(troll);
-                _combatManager.Simulate(_gameState);
+                _combatPresenter.InitializeMonster(_gameState);
+
+                yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }
 
             if (_gameState.Party.Characters.Count > 0)
