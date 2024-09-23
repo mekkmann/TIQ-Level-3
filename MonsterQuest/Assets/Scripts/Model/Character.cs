@@ -8,8 +8,10 @@ namespace MonsterQuest
 
         // CONSTRUCTORS
         public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat)
-            : base(hitPointsMaximum, displayName, bodySprite, sizeCat)
+            : base(displayName, bodySprite, sizeCat)
         {
+            HitPointsMaximum = hitPointsMaximum;
+            Initialize();
         }
     }
 }

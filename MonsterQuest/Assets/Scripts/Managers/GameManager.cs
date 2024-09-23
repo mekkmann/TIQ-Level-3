@@ -10,7 +10,7 @@ namespace MonsterQuest
         private CombatManager _combatManager;
         private CombatPresenter _combatPresenter;
 
-        [SerializeField] private Sprite[] _monsterSprites;
+        [SerializeField] private MonsterType[] _monsterTypes;
         [SerializeField] private Sprite[] _characterSprites;
 
         private void Awake()
@@ -57,7 +57,7 @@ namespace MonsterQuest
             }
             Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
 
-            Monster orc = new("orc", DiceHelper.Roll("2d8+6"), _monsterSprites[0], 10, SizeCategory.Large);
+            Monster orc = new(_monsterTypes[0], DiceHelper.Roll("2d8+6"));
             _gameState.EnterCombatWithMonster(orc);
             _combatPresenter.InitializeMonster(_gameState);
 
@@ -65,7 +65,7 @@ namespace MonsterQuest
 
             if (_gameState.Party.Characters.Count > 0)
             {
-                Monster azer = new("azer", DiceHelper.Roll("6d8+12"), _monsterSprites[1], 18, SizeCategory.Medium);
+                Monster azer = new(_monsterTypes[1], DiceHelper.Roll("6d8+12"));
                 _gameState.EnterCombatWithMonster(azer);
                 _combatPresenter.InitializeMonster(_gameState);
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
@@ -73,7 +73,7 @@ namespace MonsterQuest
 
             if (_gameState.Party.Characters.Count > 0)
             {
-                Monster troll = new("troll", DiceHelper.Roll("8d10+40"), _monsterSprites[2], 16, SizeCategory.Medium);
+                Monster troll = new(_monsterTypes[2], DiceHelper.Roll("8d10+40"));
                 _gameState.EnterCombatWithMonster(troll);
                 _combatPresenter.InitializeMonster(_gameState);
 

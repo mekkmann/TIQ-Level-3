@@ -4,12 +4,16 @@ namespace MonsterQuest
     {
         // PROPERTIES
         public int SavingThrowDC { get; private set; }
+        public MonsterType Type { get; }
+
         // CONSTRUCTORS
-        public Monster(string displayName, int hitPointsMaximum, UnityEngine.Sprite bodySprite, int savingThrowDC, SizeCategory sizeCat)
-            : base(hitPointsMaximum, displayName, bodySprite, sizeCat)
+        public Monster(MonsterType type, int savingThrowDC)
+            : base(type.DisplayName, type.BodySprite, type.SizeCategory)
         {
             SavingThrowDC = savingThrowDC;
+            Type = type;
+            HitPointsMaximum = DiceHelper.Roll(type.HpRoll);
+            Initialize();
         }
-
     }
 }

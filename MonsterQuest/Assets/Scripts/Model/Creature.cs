@@ -14,16 +14,18 @@ namespace MonsterQuest
         public CreaturePresenter Presenter { get; private set; }
 
         // CONSTRUCTORS
-        public Creature(int hitPointsMaximum, string displayName, Sprite bodySprite, SizeCategory sizeCat)
+        public Creature(string displayName, Sprite bodySprite, SizeCategory sizeCat)
         {
-            HitPointsMaximum = hitPointsMaximum;
-            HitPoints = hitPointsMaximum;
             DisplayName = displayName;
             BodySprite = bodySprite;
             SizeCat = sizeCat;
         }
 
         // METHODS
+        protected void Initialize()
+        {
+            HitPoints = HitPointsMaximum;
+        }
         public IEnumerator ReactToDamage(int damageAmount)
         {
             if (HitPoints > 0)
