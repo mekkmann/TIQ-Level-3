@@ -57,7 +57,7 @@ namespace MonsterQuest
             }
             Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
 
-            Monster orc = new(_monsterTypes[0], DiceHelper.Roll("2d8+6"));
+            Monster orc = new(_monsterTypes[0]);
             _gameState.EnterCombatWithMonster(orc);
             _combatPresenter.InitializeMonster(_gameState);
 
@@ -65,7 +65,7 @@ namespace MonsterQuest
 
             if (_gameState.Party.Characters.Count > 0)
             {
-                Monster azer = new(_monsterTypes[1], DiceHelper.Roll("6d8+12"));
+                Monster azer = new(_monsterTypes[1]);
                 _gameState.EnterCombatWithMonster(azer);
                 _combatPresenter.InitializeMonster(_gameState);
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
@@ -73,7 +73,7 @@ namespace MonsterQuest
 
             if (_gameState.Party.Characters.Count > 0)
             {
-                Monster troll = new(_monsterTypes[2], DiceHelper.Roll("8d10+40"));
+                Monster troll = new(_monsterTypes[2]);
                 _gameState.EnterCombatWithMonster(troll);
                 _combatPresenter.InitializeMonster(_gameState);
 

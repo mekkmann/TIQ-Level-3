@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MonsterQuest
@@ -10,16 +11,18 @@ namespace MonsterQuest
         public string Alignment;
         public string HpRoll;
         public ArmorType ArmorType;
+        public List<WeaponType> WeaponTypes;
         public Sprite BodySprite;
 
         // CONSTRUCTORS
-        public MonsterType(string displayName, SizeCategory sizeCategory, string alignment, string hpRoll, ArmorType armorType, Sprite bodySprite)
+        public MonsterType(string displayName, SizeCategory sizeCategory, string alignment, string hpRoll, ArmorType armorType, List<WeaponType> weaponTypes, Sprite bodySprite)
         {
             DisplayName = displayName;
             SizeCategory = sizeCategory;
             Alignment = alignment;
             HpRoll = hpRoll;
             ArmorType = armorType;
+            WeaponTypes = new (weaponTypes);
             BodySprite = bodySprite;
         }
         //public void PrintMonsterData(Dictionary<ArmorTypeId, ArmorType> armorTypes)

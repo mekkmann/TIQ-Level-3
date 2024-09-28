@@ -17,4 +17,6 @@ MonoBehaviour:
   Alignment: Lawful Neutral
   HpRoll: 6d8+12
   ArmorType: {fileID: 0}
+  WeaponTypes:
+  - {fileID: 11400000, guid: f60f3f89f84cc844f83317defcb8d356, type: 2}
   BodySprite: {fileID: 21300000, guid: c4e067472c3b8482c974dac88c53187a, type: 3}

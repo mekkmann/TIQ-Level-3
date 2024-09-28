@@ -39,6 +39,7 @@ namespace MonsterQuest
                 else
                 {
                     yield return Presenter.TakeDamage();
+                    Console.WriteLine($"{DisplayName} has {HitPoints} health left.");
                 }
             }
         }

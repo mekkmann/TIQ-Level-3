@@ -17,4 +17,7 @@ MonoBehaviour:
   Alignment: Chaotic Evil
   HpRoll: 8d10+40
   ArmorType: {fileID: 0}
+  WeaponTypes:
+  - {fileID: 11400000, guid: dbff215e9b0137e4988472d780daebd2, type: 2}
+  - {fileID: 11400000, guid: 553d1f5969f68c243bb20a2b8856cd83, type: 2}
   BodySprite: {fileID: 21300000, guid: f1fa343faea49484d895a671f5ea4a29, type: 3}

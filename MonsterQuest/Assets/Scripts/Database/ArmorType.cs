@@ -3,19 +3,15 @@ using UnityEngine;
 namespace MonsterQuest
 {
     [CreateAssetMenu]
-    public class ArmorType : ScriptableObject
+    public class ArmorType : ItemType
     {
-        public string DisplayName;
         public ArmorCategory ArmorCategory;
-        public int Weight;
         public int ArmorClass;
 
         // CONSTRUCTORS
-        public ArmorType(string displayName, ArmorCategory armorCategory, int weight, int armorClass)
+        public ArmorType(ArmorCategory armorCategory, int weight, int armorClass, string displayName) : base(displayName, weight)
         {
-            DisplayName = displayName;
             ArmorCategory = armorCategory;
-            Weight = weight;
             ArmorClass = armorClass;
         }
     }

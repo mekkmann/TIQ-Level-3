@@ -22,30 +22,27 @@ namespace MonsterQuest
                     }
 
                     int totalDamage = DiceHelper.Roll("2d6");
+                    Console.WriteLine($"{character.DisplayName} hits the {monster.DisplayName} for {totalDamage} damage.");
                     yield return StartCoroutine(character.Presenter.Attack());
                     yield return StartCoroutine(monster.ReactToDamage(totalDamage));
 
-                    Console.WriteLine($"{character.DisplayName} hits the {monster.DisplayName} for {totalDamage} damage. The {monster.DisplayName} has {monster.HitPoints} HP left.");
                 }
 
                 if (monster.HitPoints > 0)
                 {
                     Character chosenTarget = characters[random.Next(characters.Count)];
-                    Console.WriteLine($"\nThe {monster.DisplayName} attacks {chosenTarget.DisplayName}");
-                    int savingThrow = DiceHelper.Roll("1d20+3");
-                    if (savingThrow >= monster.SavingThrowDC)
+
+                    WeaponType monsterWeapon = monster.Type.WeaponTypes[Random.Range(0, monster.Type.WeaponTypes.Count - 1)];
+                    int monsterDamage = DiceHelper.Roll(monsterWeapon.DamageRoll);
+                    Console.WriteLine($"\nThe {monster.DisplayName} attacks {chosenTarget.DisplayName} for {monsterDamage} damage.");
+                    yield return StartCoroutine(monster.Presenter.Attack());
+                    yield return StartCoroutine(chosenTarget.ReactToDamage(monsterDamage));
+                    
+                    if (chosenTarget.HitPoints <= 0)
                     {
-                        Console.WriteLine($"{chosenTarget.DisplayName} rolls a {savingThrow} and is saved from the attack.\n");
-                    }
-                    else
-                    {
-                        yield return StartCoroutine(monster.Presenter.Attack());
-                        Console.WriteLine($"{chosenTarget.DisplayName} rolls a {savingThrow} and fails to be saved. {chosenTarget.DisplayName} is killed.\n");
-                        yield return StartCoroutine(chosenTarget.ReactToDamage(10));
                         gamestate.Party.RemoveCharacter(chosenTarget);
                     }
                 }
-                yield return new WaitForSeconds(0.2f);
             } while (monster.HitPoints > 0 && characters.Count > 0);
 
             if (monster.HitPoints <= 0)
