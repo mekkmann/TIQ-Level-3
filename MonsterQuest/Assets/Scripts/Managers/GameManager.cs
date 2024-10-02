@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace MonsterQuest
@@ -23,19 +24,26 @@ namespace MonsterQuest
         // Start is called before the first frame update
         IEnumerator Start()
         {
+            yield return StartCoroutine(Database.Initialize());
             NewGame();
             yield return StartCoroutine(Simulate());
         }
 
         private void NewGame()
         {
+            ArmorType studdedLeather = Database.GetItemType<ArmorType>("Studded Leather");
+
+            List<WeaponType> weapons = Database.itemTypes.Where(
+                    itemType => itemType is WeaponType { Weight: > 0 }
+                ).Cast<WeaponType>().ToList();
+
             // create party
             Party party = new(
                 new List<Character>() {
-                    new("Assassin", 10, _characterSprites[0], SizeCategory.Medium),
-                    new("Mage", 10, _characterSprites[1], SizeCategory.Medium),
-                    new("Paladin", 10, _characterSprites[2], SizeCategory.Medium),
-                    new("Warrior", 10, _characterSprites[3], SizeCategory.Medium)
+                    new("Assassin", 10, _characterSprites[0], SizeCategory.Medium, weapons[0], studdedLeather),
+                    new("Mage", 10, _characterSprites[1], SizeCategory.Medium, weapons[1], studdedLeather),
+                    new("Paladin", 10, _characterSprites[2], SizeCategory.Medium, weapons[2], studdedLeather),
+                    new("Warrior", 10, _characterSprites[3], SizeCategory.Medium, weapons[3], studdedLeather)
                     }
                 );
 

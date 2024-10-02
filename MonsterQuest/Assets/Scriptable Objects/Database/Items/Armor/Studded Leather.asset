@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae86689d14e18ec47adfc470ee8ce5ad, type: 3}
   m_Name: Studded Leather
   m_EditorClassIdentifier: 
-  ArmorCategory: 0
+  DisplayName: Studded Leather
   Weight: 13
+  ArmorCategory: 0
   ArmorClass: 12

@@ -21,8 +21,8 @@ namespace MonsterQuest
                         break;
                     }
 
-                    int totalDamage = DiceHelper.Roll("2d6");
-                    Console.WriteLine($"{character.DisplayName} hits the {monster.DisplayName} for {totalDamage} damage.");
+                    int totalDamage = DiceHelper.Roll(character.WeaponType.DamageRoll);
+                    Console.WriteLine($"{character.DisplayName} hits the {monster.DisplayName} with {character.WeaponType.DisplayName} for {totalDamage} damage.");
                     yield return StartCoroutine(character.Presenter.Attack());
                     yield return StartCoroutine(monster.ReactToDamage(totalDamage));
 
@@ -34,7 +34,7 @@ namespace MonsterQuest
 
                     WeaponType monsterWeapon = monster.Type.WeaponTypes[Random.Range(0, monster.Type.WeaponTypes.Count - 1)];
                     int monsterDamage = DiceHelper.Roll(monsterWeapon.DamageRoll);
-                    Console.WriteLine($"\nThe {monster.DisplayName} attacks {chosenTarget.DisplayName} for {monsterDamage} damage.");
+                    Console.WriteLine($"\nThe {monster.DisplayName} attacks {chosenTarget.DisplayName} with {monsterWeapon.DisplayName} for {monsterDamage} damage.");
                     yield return StartCoroutine(monster.Presenter.Attack());
                     yield return StartCoroutine(chosenTarget.ReactToDamage(monsterDamage));
                     
