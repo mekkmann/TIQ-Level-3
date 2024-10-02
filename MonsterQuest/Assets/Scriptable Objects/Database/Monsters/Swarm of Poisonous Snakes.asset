@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8606d8f037f6044d9302a4940cd6362, type: 3}
+  m_Name: Swarm of Poisonous Snakes
+  m_EditorClassIdentifier: 
+  DisplayName: Swarm of Poisonous Snakes
+  SizeCategory: 3
+  Alignment: Unaligned
+  HpRoll: 8d8
+  ArmorType: {fileID: 11400000, guid: 2e05904691f6d624fa3bb6cfe911cb23, type: 2}
+  WeaponTypes:
+  - {fileID: 11400000, guid: 6256c0e3ef8a4c64586f0945c1947a23, type: 2}
+  BodySprite: {fileID: 21300000, guid: eee229209e6ad4e05a0b73051cfacc4f, type: 3}
