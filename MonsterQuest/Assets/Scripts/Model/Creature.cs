@@ -22,7 +22,7 @@ namespace MonsterQuest
         public CreaturePresenter Presenter { get; private set; }
 
         public LifeStatus LifeStatus { get; set; }
-        public List<bool> DeathSavingThrows { get; set; }
+        public List<bool> DeathSavingThrows { get; protected set; }
         public int DeathSavingThrowFailures { get; set; }
         public int DeathSavingThrowSuccesses { get; set; }
         // CONSTRUCTORS
@@ -40,7 +40,7 @@ namespace MonsterQuest
         {
             HitPoints = HitPointsMaximum;
         }
-        public IEnumerator ReactToDamage(int damageAmount)
+        public virtual IEnumerator ReactToDamage(int damageAmount)
         {
             if (HitPoints > 0)
             {
