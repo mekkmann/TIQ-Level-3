@@ -3,23 +3,35 @@ using UnityEngine;
 
 namespace MonsterQuest
 {
-    public class CreaturePresenter : MonoBehaviour
+    public partial class CreaturePresenter : MonoBehaviour
     {
-
-
-
         private const float _creatureUnitScale = 0.8f;
 
         private static readonly int _attackHash = Animator.StringToHash("Attack");
-        private static readonly int _takeDamageHash = Animator.StringToHash("Take damage");
+        private static readonly int _attackedHash = Animator.StringToHash("Attacked");
+        private static readonly int _attackedToLyingHash = Animator.StringToHash("Attacked to lying");
+        private static readonly int _attackedToInstantDeathHash = Animator.StringToHash("Attacked to instant death");
+        private static readonly int _standHash = Animator.StringToHash("Stand");
+        private static readonly int _lyingStateHash = Animator.StringToHash("Attacked standing to lying");
         private static readonly int _dieHash = Animator.StringToHash("Die");
-        private static readonly int _liveHash = Animator.StringToHash("Live");
+        private static readonly int _stableHash = Animator.StringToHash("Stable");
+        private static readonly int _deathSavingThrowFailuresHash = Animator.StringToHash("Death saving throw failures");
 
         [SerializeField] private Color damagedColor;
         [SerializeField] private Sprite[] standSprites;
 
+        private Animator _animator;
         private Animator _bodySpriteAnimator;
+        private Animator _standAnimator;
+
+        private bool _destroyed;
+
+        private bool _standing;
+
         private Creature _creature;
+
+        private DeathSavingThrowsPresenter _deathSavingThrowsPresenter;
+        private DicePresenter _dicePresenter;
 
         private float _currentHitPointRatio;
         private IEnumerator _hitPointAnimationCoroutine;
@@ -30,22 +42,33 @@ namespace MonsterQuest
         private Transform _bodySpriteTransform;
         private Transform _bodyTransform;
         private Transform _bodyVerticalDisplacementTransform;
+        private Transform _deathSavingThrowsTransform;
         private Transform _hitPointsMaskTransform;
         private Transform _standBaseTransform;
 
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
+
             _bodyTransform = transform.Find("Body");
 
             _bodyVerticalDisplacementTransform = _bodyTransform.Find("Vertical displacement");
+
             _bodyOrientationTransform = _bodyVerticalDisplacementTransform.Find("Orientation");
 
             _bodySpriteTransform = _bodyOrientationTransform.Find("Sprite");
             _bodySpriteAnimator = _bodySpriteTransform.GetComponent<Animator>();
 
             Transform standTransform = transform.Find("Stand");
+            _standAnimator = standTransform.GetComponent<Animator>();
+
             _standBaseTransform = standTransform.Find("Base");
             _hitPointsMaskTransform = standTransform.Find("Hit points mask");
+
+            _deathSavingThrowsTransform = transform.Find("UI").Find("Death saving throws");
+            _deathSavingThrowsPresenter = _deathSavingThrowsTransform.GetComponent<DeathSavingThrowsPresenter>();
+
+            _dicePresenter = GameObject.Find("Dice").GetComponent<DicePresenter>();
         }
 
         public void Initialize(Creature creature)
@@ -56,141 +79,41 @@ namespace MonsterQuest
 
             // Set body sprite.
             _bodySpriteRenderer = _bodySpriteTransform.GetComponent<SpriteRenderer>();
-            _bodySpriteRenderer.sprite = _creature.BodySprite;
+            _bodySpriteRenderer.sprite = _creature.bodySprite;
 
             // Set stand sprite.
             SpriteRenderer[] standSpriteRenderers = _standBaseTransform.GetComponentsInChildren<SpriteRenderer>();
 
             foreach (SpriteRenderer standSpriteRenderer in standSpriteRenderers)
             {
-                standSpriteRenderer.sprite = standSprites[(int)_creature.SizeCat - 1];
+                standSpriteRenderer.sprite = standSprites[(int)_creature.sizeCategory - 1];
             }
 
             // Set initial hit points.
-            SetHitPointRatio((float)creature.HitPoints / creature.HitPointsMaximum);
-        }
+            SetHitPointRatio((float)creature.hitPoints / creature.hitPointsMaximum);
 
-        public void FaceDirection(CardinalDirection direction)
-        {
-            // Get the angle we need to rotate by.
-            float angleDegrees = CardinalDirectionHelper.cardinalDirectionRotationsDegrees[direction];
+            // Set initial standing/lying state.
+            _standing = creature.hitPoints > 0;
 
-            // Account for sprites being positioned in the south direction.
-            angleDegrees -= CardinalDirectionHelper.cardinalDirectionRotationsDegrees[CardinalDirection.South];
-
-            // Rotate the body orientation and the stand base.
-            _bodyOrientationTransform.localRotation = Quaternion.Euler(0, 0, angleDegrees);
-            _standBaseTransform.localRotation = _bodyOrientationTransform.localRotation;
-        }
-
-        public IEnumerator Attack()
-        {
-            // Trigger the attack animation.
-            _bodySpriteAnimator.SetTrigger(_attackHash);
-
-            yield return new WaitForSeconds(15f / 60f);
-        }
-
-        public IEnumerator TakeDamage()
-        {
-            // Trigger the take damage animation.
-            _bodySpriteAnimator.SetTrigger(_takeDamageHash);
-
-            // Update hit points indicator.
-            UpdateHitPoints();
-
-            yield return new WaitForSeconds(1f);
-        }
-
-        public IEnumerator Heal()
-        {
-            // Update hit points indicator.
-            UpdateHitPoints();
-
-            yield break;
-        }
-
-        public IEnumerator FallUnconscious()
-        {
-            // Trigger the die animation.
-            _bodySpriteAnimator.SetTrigger(_dieHash);
-
-            // Update hit points indicator.
-            UpdateHitPoints();
-
-            yield return new WaitForSeconds(1.9f);
-        }
-
-        public IEnumerator RegainConsciousness()
-        {
-            // Trigger the live animation.
-            _bodySpriteAnimator.SetTrigger(_liveHash);
-
-            yield return new WaitForSeconds(1f);
-        }
-
-        public IEnumerator Die()
-        {
-            // Trigger the die animation.
-            _bodySpriteAnimator.SetTrigger(_dieHash);
-
-            // Update hit points indicator.
-            UpdateHitPoints();
-
-            yield return new WaitForSeconds(2f);
-
-            Destroy(gameObject);
-
-            yield return new WaitForSeconds(0.5f);
-        }
-
-        private void SetHitPointRatio(float ratio)
-        {
-            float spaceTaken = _creature.SpaceInFeet * _creatureUnitScale;
-            _hitPointsMaskTransform.localPosition = new Vector3(0, -spaceTaken / 2, 0);
-            _hitPointsMaskTransform.localScale = new Vector3(spaceTaken, spaceTaken * ratio, 1);
-
-            _bodySpriteRenderer.color = Color.Lerp(damagedColor, Color.white, ratio);
-
-            _currentHitPointRatio = ratio;
-        }
-
-        private void UpdateHitPoints()
-        {
-            AnimateToHitPointRatio((float)_creature.HitPoints / _creature.HitPointsMaximum);
-        }
-
-        private void AnimateToHitPointRatio(float ratio)
-        {
-            if (_hitPointAnimationCoroutine != null)
+            if (!_standing)
             {
-                StopCoroutine(_hitPointAnimationCoroutine);
+                _bodySpriteAnimator.Play(_lyingStateHash, 0, 1);
             }
 
-            _hitPointAnimationCoroutine = AnimateToHitPointRatioCoroutine(ratio, 0.5f);
-            StartCoroutine(_hitPointAnimationCoroutine);
-        }
+            // Set initial stable state.
+            UpdateStableStatus();
 
-        private IEnumerator AnimateToHitPointRatioCoroutine(float endRatio, float transitionDuration)
-        {
-            float startRatio = _currentHitPointRatio;
-            float startTime = Time.time;
+            // Position the death saving throws.
+            float offset = _creature.spaceInFeet * 0.5f + 1.5f;
+            _deathSavingThrowsTransform.localPosition = new Vector3(0, offset, 0);
 
-            float transitionProgress;
+            // Set initial death saving throws.
+            UpdateDeathSavingThrowFailures();
 
-            do
+            foreach (bool deathSavingThrow in _creature.deathSavingThrows)
             {
-                transitionProgress = transitionDuration > 0 ? (Time.time - startTime) / transitionDuration : 1;
-
-                // Ease out to desired ratio.
-                float easedTransitionProgress = Mathf.Sin(transitionProgress * Mathf.PI / 2);
-                float newRatio = Mathf.Lerp(startRatio, endRatio, easedTransitionProgress);
-                SetHitPointRatio(newRatio);
-
-                yield return null;
-            } while (transitionProgress < 1);
-
-            _hitPointAnimationCoroutine = null;
+                _deathSavingThrowsPresenter.AddDeathSavingThrow(deathSavingThrow);
+            }
         }
     }
 }
