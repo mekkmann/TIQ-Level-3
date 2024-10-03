@@ -18,10 +18,10 @@ namespace MonsterQuest
         public IEnumerator FaceCreature(Creature creature, bool immediate = false)
         {
             // Make sure the creature is not destroyed.
-            if (creature == null || creature.presenter == null) yield break;
+            if (creature == null || creature.Presenter == null) yield break;
 
             // Get the angle we need to rotate by.
-            Vector3 directionToCreature = creature.presenter.transform.position - transform.position;
+            Vector3 directionToCreature = creature.Presenter.transform.position - transform.position;
             float angleDegrees = Mathf.Atan2(directionToCreature.y, directionToCreature.x) * Mathf.Rad2Deg;
 
             yield return FaceAngle(angleDegrees, immediate);

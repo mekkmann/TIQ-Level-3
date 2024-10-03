@@ -31,7 +31,7 @@ namespace MonsterQuest
 
         private void UpdateDeathSavingThrowFailures()
         {
-            _standAnimator.SetInteger(_deathSavingThrowFailuresHash, _creature.deathSavingThrowFailures);
+            _standAnimator.SetInteger(_deathSavingThrowFailuresHash, _creature.DeathSavingThrowFailures);
         }
     }
 }

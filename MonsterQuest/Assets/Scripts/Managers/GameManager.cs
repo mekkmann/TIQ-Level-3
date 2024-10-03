@@ -53,11 +53,12 @@ namespace MonsterQuest
 
         private IEnumerator Simulate()
         {
+
             // 1. move gameplay code from start into this method DONE
             // 2. instantiate the individual monsters and enter into combat with them
             // -- 2.1 (basically set the gamestate combat to which monster we're currently fighting for saving purposes)
             // -- 2.2 use the CombatManager to simulate the combat
-            _combatPresenter.InitializeParty(_gameState);
+            StartCoroutine(_combatPresenter.InitializeParty(_gameState));
             List<string> characterDisplayNames = new();
             foreach (Character character in _gameState.Party.Characters)
             {
@@ -67,15 +68,14 @@ namespace MonsterQuest
 
             Monster orc = new(_monsterTypes[0]);
             _gameState.EnterCombatWithMonster(orc);
-            _combatPresenter.InitializeMonster(_gameState);
-
+            StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
             yield return StartCoroutine(_combatManager.Simulate(_gameState));
 
             if (_gameState.Party.Characters.Count > 0)
             {
                 Monster swarm = new(Database.GetMonsterType("Swarm of Poisonous Snakes"));
                 _gameState.EnterCombatWithMonster(swarm);
-                _combatPresenter.InitializeMonster(_gameState);
+                StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }
 
@@ -83,7 +83,7 @@ namespace MonsterQuest
             {
                 Monster azer = new(_monsterTypes[1]);
                 _gameState.EnterCombatWithMonster(azer);
-                _combatPresenter.InitializeMonster(_gameState);
+                StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }
 
@@ -91,7 +91,7 @@ namespace MonsterQuest
             {
                 Monster troll = new(_monsterTypes[2]);
                 _gameState.EnterCombatWithMonster(troll);
-                _combatPresenter.InitializeMonster(_gameState);
+                StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
 
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }

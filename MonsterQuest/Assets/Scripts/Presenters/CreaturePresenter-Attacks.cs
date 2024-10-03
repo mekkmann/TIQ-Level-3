@@ -20,7 +20,7 @@ namespace MonsterQuest
             // Update hit points indicator.
             UpdateHitPoints();
 
-            if (_standing && _creature.hitPoints == 0)
+            if (_standing && _creature.HitPoints == 0)
             {
                 if (instantDeath)
                 {

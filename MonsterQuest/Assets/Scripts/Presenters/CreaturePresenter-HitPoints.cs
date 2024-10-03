@@ -9,7 +9,7 @@ namespace MonsterQuest
 
         private void SetHitPointRatio(float ratio)
         {
-            float spaceInFeet = _creature.spaceInFeet * _creatureUnitScale;
+            float spaceInFeet = _creature.SpaceInFeet * _creatureUnitScale;
             _hitPointsMaskTransform.localPosition = new Vector3(0, -spaceInFeet / 2, 0);
             _hitPointsMaskTransform.localScale = new Vector3(spaceInFeet, spaceInFeet * ratio, 1);
 
@@ -20,7 +20,7 @@ namespace MonsterQuest
 
         private void UpdateHitPoints()
         {
-            AnimateToHitPointRatio(Mathf.Max(0f, _creature.hitPoints) / _creature.hitPointsMaximum);
+            AnimateToHitPointRatio(Mathf.Max(0f, _creature.HitPoints) / _creature.HitPointsMaximum);
         }
 
         private void AnimateToHitPointRatio(float ratio)

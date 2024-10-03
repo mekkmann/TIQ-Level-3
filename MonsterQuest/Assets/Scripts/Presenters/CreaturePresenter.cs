@@ -79,21 +79,21 @@ namespace MonsterQuest
 
             // Set body sprite.
             _bodySpriteRenderer = _bodySpriteTransform.GetComponent<SpriteRenderer>();
-            _bodySpriteRenderer.sprite = _creature.bodySprite;
+            _bodySpriteRenderer.sprite = _creature.BodySprite;
 
             // Set stand sprite.
             SpriteRenderer[] standSpriteRenderers = _standBaseTransform.GetComponentsInChildren<SpriteRenderer>();
 
             foreach (SpriteRenderer standSpriteRenderer in standSpriteRenderers)
             {
-                standSpriteRenderer.sprite = standSprites[(int)_creature.sizeCategory - 1];
+                standSpriteRenderer.sprite = standSprites[(int)_creature.SizeCat - 1];
             }
 
             // Set initial hit points.
-            SetHitPointRatio((float)creature.hitPoints / creature.hitPointsMaximum);
+            SetHitPointRatio((float)creature.HitPoints / creature.HitPointsMaximum);
 
             // Set initial standing/lying state.
-            _standing = creature.hitPoints > 0;
+            _standing = creature.HitPoints > 0;
 
             if (!_standing)
             {
@@ -104,13 +104,13 @@ namespace MonsterQuest
             UpdateStableStatus();
 
             // Position the death saving throws.
-            float offset = _creature.spaceInFeet * 0.5f + 1.5f;
+            float offset = _creature.SpaceInFeet * 0.5f + 1.5f;
             _deathSavingThrowsTransform.localPosition = new Vector3(0, offset, 0);
 
             // Set initial death saving throws.
             UpdateDeathSavingThrowFailures();
 
-            foreach (bool deathSavingThrow in _creature.deathSavingThrows)
+            foreach (bool deathSavingThrow in _creature.DeathSavingThrows)
             {
                 _deathSavingThrowsPresenter.AddDeathSavingThrow(deathSavingThrow);
             }

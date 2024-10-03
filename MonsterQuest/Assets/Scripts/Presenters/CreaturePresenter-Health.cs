@@ -9,7 +9,7 @@ namespace MonsterQuest
 
         public void UpdateStableStatus()
         {
-            _standAnimator.SetBool(_stableHash, _creature.lifeStatus != LifeStatus.UnconsciousUnstable);
+            _standAnimator.SetBool(_stableHash, _creature.LifeStatus != LifeStatus.UnconsciousUnstable);
         }
 
         public IEnumerator Heal()

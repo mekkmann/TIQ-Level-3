@@ -1,8 +1,16 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace MonsterQuest
 {
+    public enum LifeStatus
+    {
+        Conscious,
+        UnconsciousStable,
+        UnconsciousUnstable,
+        Dead
+    }
     public class Creature
     {
         public string DisplayName { get; protected set; }
@@ -13,12 +21,18 @@ namespace MonsterQuest
         public float SpaceInFeet => SizeHelper.spaceInFeetPerSizeCategory[SizeCat];
         public CreaturePresenter Presenter { get; private set; }
 
+        public LifeStatus LifeStatus { get; set; }
+        public List<bool> DeathSavingThrows { get; set; }
+        public int DeathSavingThrowFailures { get; set; }
+        public int DeathSavingThrowSuccesses { get; set; }
         // CONSTRUCTORS
         public Creature(string displayName, Sprite bodySprite, SizeCategory sizeCat)
         {
             DisplayName = displayName;
             BodySprite = bodySprite;
             SizeCat = sizeCat;
+
+            LifeStatus = LifeStatus.Conscious;
         }
 
         // METHODS
