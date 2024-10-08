@@ -53,18 +53,26 @@ namespace MonsterQuest
 
         private IEnumerator Simulate()
         {
-
-            // 1. move gameplay code from start into this method DONE
-            // 2. instantiate the individual monsters and enter into combat with them
-            // -- 2.1 (basically set the gamestate combat to which monster we're currently fighting for saving purposes)
-            // -- 2.2 use the CombatManager to simulate the combat
-            yield return StartCoroutine(_combatPresenter.InitializeParty(_gameState));
+            yield return _combatPresenter.InitializeParty(_gameState);
             List<string> characterDisplayNames = new();
             foreach (Character character in _gameState.Party.Characters)
             {
                 characterDisplayNames.Add(character.DisplayName);
             }
+
             Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
+
+
+            // OP TEST MONSTER /////////////////
+            if (_gameState.Party.Characters.Count > 0)
+            {
+                Monster swarm = new(Database.GetMonsterType("OP TEST MONSTER"));
+                _gameState.EnterCombatWithMonster(swarm);
+                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
+                yield return StartCoroutine(_combatManager.Simulate(_gameState));
+            }
+            ////////////////////////////////////
+           
 
             Monster orc = new(_monsterTypes[0]);
             _gameState.EnterCombatWithMonster(orc);

@@ -31,7 +31,7 @@ namespace MonsterQuest
             DisplayName = displayName;
             BodySprite = bodySprite;
             SizeCat = sizeCat;
-
+            DeathSavingThrows = new List<bool>();
             LifeStatus = LifeStatus.Conscious;
         }
 
@@ -48,6 +48,7 @@ namespace MonsterQuest
                 if (HitPoints <= 0)
                 {
                     HitPoints = 0;
+                    yield return Presenter.TakeDamage();
                     yield return Presenter.Die();
                 }
                 else

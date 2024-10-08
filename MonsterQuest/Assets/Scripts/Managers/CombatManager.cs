@@ -16,6 +16,11 @@ namespace MonsterQuest
             {
                 foreach (Character character in characters)
                 {
+                    if (character.LifeStatus != LifeStatus.Conscious)
+                    {
+                        continue;
+                    }
+
                     if (monster.HitPoints == 0)
                     {
                         break;
@@ -38,7 +43,7 @@ namespace MonsterQuest
                     yield return StartCoroutine(monster.Presenter.Attack());
                     yield return StartCoroutine(chosenTarget.ReactToDamage(monsterDamage));
                     
-                    if (chosenTarget.HitPoints <= 0)
+                    if (chosenTarget.LifeStatus == LifeStatus.Dead)
                     {
                         gamestate.Party.RemoveCharacter(chosenTarget);
                     }

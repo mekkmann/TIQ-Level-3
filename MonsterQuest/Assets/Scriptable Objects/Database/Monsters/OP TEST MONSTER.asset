@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8606d8f037f6044d9302a4940cd6362, type: 3}
+  m_Name: OP TEST MONSTER
+  m_EditorClassIdentifier: 
+  DisplayName: OP TEST MONSTER
+  SizeCategory: 3
+  Alignment: Chaotic Evil
+  HpRoll: 10d20+100
+  ArmorType: {fileID: 11400000, guid: df11a4ecde2260a48b9676896b532050, type: 2}
+  WeaponTypes:
+  - {fileID: 11400000, guid: 9d4e0830e847f794bac60f541a0a1680, type: 2}
+  BodySprite: {fileID: 21300000, guid: 55524b0152da144b29f8d4d0089ef572, type: 3}

@@ -1,3 +1,5 @@
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace MonsterQuest
@@ -16,6 +18,46 @@ namespace MonsterQuest
             ArmorType = armorType;
             HitPointsMaximum = hitPointsMaximum;
             Initialize();
+        }
+
+        public override IEnumerator ReactToDamage(int damageAmount)
+        {
+            if (LifeStatus == LifeStatus.Conscious)
+            {
+                if (HitPoints + HitPointsMaximum <= damageAmount)
+                {
+                    HitPoints -= damageAmount;
+                    LifeStatus = LifeStatus.Dead;
+                    Presenter.UpdateStableStatus();
+                    Console.WriteLine($"{DisplayName} takes so much damage they're immediately killed!");
+                    yield return Presenter.TakeDamage(true);
+                    yield return Presenter.Die();
+
+                } else
+                {
+                    HitPoints -= damageAmount;
+                    if(HitPoints <= 0)
+                    {
+                        HitPoints = 0;
+                        LifeStatus = LifeStatus.UnconsciousUnstable;
+                        Presenter.UpdateStableStatus();
+                    }
+                    yield return Presenter.TakeDamage(false);
+
+                }
+            } else if (LifeStatus == LifeStatus.UnconsciousUnstable)
+            {
+                DeathSavingThrowFailures++;
+                Console.WriteLine($"{DisplayName} fails a death saving throw");
+                yield return Presenter.PerformDeathSavingThrow(false);
+                if (DeathSavingThrowFailures == 3)
+                {
+                    LifeStatus = LifeStatus.Dead;
+                    Presenter.UpdateStableStatus();
+                    Console.Write($"{DisplayName} meets their untimely end");
+                    yield return Presenter.Die();
+                }
+            }
         }
     }
 }
