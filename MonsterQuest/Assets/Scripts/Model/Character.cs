@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,6 +10,8 @@ namespace MonsterQuest
         // PROPERTIES
         public WeaponType WeaponType { get; set; }
         public ArmorType ArmorType { get; set; }
+        private List<bool> _deathSavingThrows = new();
+        public override IEnumerable<bool> DeathSavingThrows { get { return _deathSavingThrows; } protected set { } }
 
         // CONSTRUCTORS
         public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType)

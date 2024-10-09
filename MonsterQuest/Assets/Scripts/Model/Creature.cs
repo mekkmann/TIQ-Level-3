@@ -11,7 +11,7 @@ namespace MonsterQuest
         UnconsciousUnstable,
         Dead
     }
-    public class Creature
+    public abstract class Creature
     {
         public string DisplayName { get; protected set; }
         public int HitPoints { get; protected set; }
@@ -22,7 +22,7 @@ namespace MonsterQuest
         public CreaturePresenter Presenter { get; private set; }
 
         public LifeStatus LifeStatus { get; set; }
-        public List<bool> DeathSavingThrows { get; protected set; }
+        public abstract IEnumerable<bool> DeathSavingThrows { get; protected set; }
         public int DeathSavingThrowFailures { get; set; }
         public int DeathSavingThrowSuccesses { get; set; }
         // CONSTRUCTORS
@@ -31,7 +31,6 @@ namespace MonsterQuest
             DisplayName = displayName;
             BodySprite = bodySprite;
             SizeCat = sizeCat;
-            DeathSavingThrows = new List<bool>();
             LifeStatus = LifeStatus.Conscious;
         }
 
