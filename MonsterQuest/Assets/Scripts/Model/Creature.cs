@@ -25,6 +25,8 @@ namespace MonsterQuest
         public abstract IEnumerable<bool> DeathSavingThrows { get; protected set; }
         public int DeathSavingThrowFailures { get; set; }
         public int DeathSavingThrowSuccesses { get; set; }
+
+        public abstract int ArmorClass { get; set; }
         // CONSTRUCTORS
         public Creature(string displayName, Sprite bodySprite, SizeCategory sizeCat)
         {
@@ -39,7 +41,10 @@ namespace MonsterQuest
         {
             HitPoints = HitPointsMaximum;
         }
-        public virtual IEnumerator ReactToDamage(int damageAmount)
+
+        public abstract IAction TakeTurn(GameState gameState);
+
+        public virtual IEnumerator ReactToDamage(int damageAmount, bool wasCriticalHit)
         {
             if (HitPoints > 0)
             {

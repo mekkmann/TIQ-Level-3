@@ -12,6 +12,7 @@ namespace MonsterQuest
         public ArmorType ArmorType { get; set; }
         private List<bool> _deathSavingThrows = new();
         public override IEnumerable<bool> DeathSavingThrows { get { return _deathSavingThrows; } protected set { } }
+        public override int ArmorClass { get; set; }
 
         // CONSTRUCTORS
         public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType)
@@ -20,10 +21,11 @@ namespace MonsterQuest
             WeaponType = weaponType;
             ArmorType = armorType;
             HitPointsMaximum = hitPointsMaximum;
+            ArmorClass = armorType.ArmorClass;
             Initialize();
         }
 
-        public override IEnumerator ReactToDamage(int damageAmount)
+        public override IEnumerator ReactToDamage(int damageAmount, bool wasCriticalHit)
         {
             if (LifeStatus == LifeStatus.Conscious)
             {
@@ -44,16 +46,30 @@ namespace MonsterQuest
                         HitPoints = 0;
                         LifeStatus = LifeStatus.UnconsciousUnstable;
                         Presenter.UpdateStableStatus();
+                        Console.WriteLine($"{DisplayName} falls unconscious");
                     }
                     yield return Presenter.TakeDamage(false);
 
                 }
             } else if (LifeStatus == LifeStatus.UnconsciousUnstable)
             {
-                DeathSavingThrowFailures++;
-                Console.WriteLine($"{DisplayName} fails a death saving throw");
-                yield return Presenter.PerformDeathSavingThrow(false);
-                if (DeathSavingThrowFailures == 3)
+                if (!wasCriticalHit) 
+                {
+                    DeathSavingThrowFailures++;
+                    Console.WriteLine($"{DisplayName} fails a death saving throw");
+                    yield return Presenter.PerformDeathSavingThrow(false);
+                } else
+                {
+                    DeathSavingThrowFailures += 2;
+                    Console.WriteLine($"{DisplayName} fails two death saving throws");
+                    yield return Presenter.PerformDeathSavingThrow(false);
+                    if (DeathSavingThrowFailures < 3)
+                    {
+                        yield return Presenter.PerformDeathSavingThrow(false);
+                    }
+                }
+                
+                if (DeathSavingThrowFailures >= 3)
                 {
                     LifeStatus = LifeStatus.Dead;
                     Presenter.UpdateStableStatus();
@@ -61,6 +77,12 @@ namespace MonsterQuest
                     yield return Presenter.Die();
                 }
             }
+        }
+        public override IAction TakeTurn(GameState gameState)
+        {
+            AttackAction action = new(this, gameState.Combat.Monster, WeaponType);
+
+            return action;
         }
     }
 }
