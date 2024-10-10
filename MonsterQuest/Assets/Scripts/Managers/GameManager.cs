@@ -64,13 +64,13 @@ namespace MonsterQuest
 
 
             // OP TEST MONSTER /////////////////
-            if (_gameState.Party.Characters.Count > 0)
-            {
-                Monster swarm = new(Database.GetMonsterType("OP TEST MONSTER"));
-                _gameState.EnterCombatWithMonster(swarm);
-                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-                yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            }
+            //if (_gameState.Party.Characters.Count > 0)
+            //{
+            //    Monster swarm = new(Database.GetMonsterType("OP TEST MONSTER"));
+            //    _gameState.EnterCombatWithMonster(swarm);
+            //    yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
+            //    yield return StartCoroutine(_combatManager.Simulate(_gameState));
+            //}
             ////////////////////////////////////
            
 
@@ -84,6 +84,7 @@ namespace MonsterQuest
                 Monster swarm = new(Database.GetMonsterType("Swarm of Poisonous Snakes"));
                 _gameState.EnterCombatWithMonster(swarm);
                 yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
+                yield return new WaitForSeconds(2f);
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }
 
@@ -92,6 +93,8 @@ namespace MonsterQuest
                 Monster azer = new(_monsterTypes[1]);
                 _gameState.EnterCombatWithMonster(azer);
                 yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
+                yield return new WaitForSeconds(2f);
+
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }
 
@@ -100,6 +103,7 @@ namespace MonsterQuest
                 Monster troll = new(_monsterTypes[2]);
                 _gameState.EnterCombatWithMonster(troll);
                 yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
+                yield return new WaitForSeconds(2f);
 
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }

@@ -43,6 +43,7 @@ namespace MonsterQuest
             if (attackRoll == 1)
             {
                 Console.WriteLine($"{_attacker.DisplayName} attacks {_target.DisplayName} with {_weaponType.DisplayName} but misses");
+                yield return _attacker.Presenter.Attack();
             }
             else if (attackRoll == 20)
             {
@@ -64,6 +65,7 @@ namespace MonsterQuest
             else
             {
                 Console.WriteLine($"{_attacker.DisplayName} attacks {_target.DisplayName} with {_weaponType.DisplayName} but misses");
+                yield return _attacker.Presenter.Attack();
             }
 
         }

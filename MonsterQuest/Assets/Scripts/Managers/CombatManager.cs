@@ -14,6 +14,7 @@ namespace MonsterQuest
             List<Character> characters = gamestate.Party.Characters;
             Console.WriteLine($"Watch out, {monster.DisplayName} with {monster.HitPoints} HP appears!\n");
 
+            turnOrder.Clear();
             turnOrder.AddRange(characters);
             turnOrder.Add(monster);
             turnOrder = ListHelper.Shuffle(turnOrder);
