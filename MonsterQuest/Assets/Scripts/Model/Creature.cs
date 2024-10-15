@@ -44,6 +44,12 @@ namespace MonsterQuest
 
         public abstract IAction TakeTurn(GameState gameState);
 
+        public virtual IEnumerator Heal(int amount)
+        {
+            HitPoints += Mathf.Clamp(amount, 0, HitPointsMaximum);
+            yield return Presenter.Heal();
+        }
+
         public virtual IEnumerator ReactToDamage(int damageAmount, bool wasCriticalHit)
         {
             if (HitPoints > 0)

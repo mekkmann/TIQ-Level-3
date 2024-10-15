@@ -23,15 +23,16 @@ namespace MonsterQuest
             {
                 foreach (Creature creature in turnOrder)
                 {
-                    if (creature.LifeStatus != LifeStatus.Conscious)
+                    if (monster.HitPoints == 0)
+                    {
+                        break;
+                    }
+
+                    if (creature.LifeStatus == LifeStatus.Dead || creature.LifeStatus == LifeStatus.UnconsciousStable)
                     {
                         continue;
                     }
 
-                    if (creature is Monster && creature.HitPoints == 0)
-                    {
-                        break;
-                    }
 
                     IAction turn = creature.TakeTurn(gamestate);
                     yield return StartCoroutine(turn.Execute());

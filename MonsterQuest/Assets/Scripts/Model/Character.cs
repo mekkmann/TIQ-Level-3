@@ -56,11 +56,14 @@ namespace MonsterQuest
                 if (!wasCriticalHit) 
                 {
                     DeathSavingThrowFailures++;
+                    _deathSavingThrows.Add(false);
                     Console.WriteLine($"{DisplayName} fails a death saving throw");
                     yield return Presenter.PerformDeathSavingThrow(false);
                 } else
                 {
                     DeathSavingThrowFailures += 2;
+                    _deathSavingThrows.Add(false);
+                    _deathSavingThrows.Add(false);
                     Console.WriteLine($"{DisplayName} fails two death saving throws");
                     yield return Presenter.PerformDeathSavingThrow(false);
                     if (DeathSavingThrowFailures < 3)
@@ -68,7 +71,7 @@ namespace MonsterQuest
                         yield return Presenter.PerformDeathSavingThrow(false);
                     }
                 }
-                
+
                 if (DeathSavingThrowFailures >= 3)
                 {
                     LifeStatus = LifeStatus.Dead;
@@ -80,9 +83,87 @@ namespace MonsterQuest
         }
         public override IAction TakeTurn(GameState gameState)
         {
-            AttackAction action = new(this, gameState.Combat.Monster, WeaponType);
+            IAction action = null;
+            if (LifeStatus == LifeStatus.Conscious)
+            {
+                action = new AttackAction(this, gameState.Combat.Monster, WeaponType);
+            }
+            
+            if (LifeStatus == LifeStatus.UnconsciousUnstable)
+            {
+                action = new BeUnconsciousAction(this);
+            }
 
             return action;
+        }
+
+        public override IEnumerator Heal(int amount)
+        {
+            yield return base.Heal(amount);
+        }
+
+        public IEnumerator HandleUnconsciousState()
+        {
+            int roll = DiceHelper.Roll("1d20");
+
+            if (roll == 1)
+            {
+                // 2 death saving failures
+                DeathSavingThrowFailures += 2;
+                _deathSavingThrows.Add(false);
+                _deathSavingThrows.Add(false);
+                yield return Presenter.PerformDeathSavingThrow(false, roll);
+                Console.WriteLine($"{DisplayName} critically fails a death saving throw!");
+            } else if (roll == 20)
+            {
+                yield return Presenter.PerformDeathSavingThrow(true, roll);
+                Console.WriteLine($"{DisplayName} critically succeeds a death saving throw and heals 1 HP!");
+                ResetDeathSavingThrows();
+                yield return Heal(1);
+                yield return Presenter.RegainConsciousness();
+                LifeStatus = LifeStatus.Conscious;
+                Presenter.UpdateStableStatus();
+                yield break;
+            } else if (roll > 1 && roll < 10)
+            {
+                //  1 death saving failure
+                DeathSavingThrowFailures += 1;
+                _deathSavingThrows.Add(false);
+                yield return Presenter.PerformDeathSavingThrow(false, roll);
+                Console.WriteLine($"{DisplayName} fails a death saving throw");
+            } else
+            {
+                // 1 death saving success
+                DeathSavingThrowSuccesses += 1;
+                _deathSavingThrows.Add(true);
+                yield return Presenter.PerformDeathSavingThrow(true, roll);
+                Console.WriteLine($"{DisplayName} succeeds a death saving throw");
+            }
+
+            if (DeathSavingThrowFailures >= 3)
+            {
+                LifeStatus = LifeStatus.Dead;
+                Presenter.UpdateStableStatus();
+                Console.Write($"{DisplayName} meets their untimely end");
+                yield return Presenter.Die();
+            }
+
+            if (DeathSavingThrowSuccesses >= 3)
+            {
+                LifeStatus = LifeStatus.UnconsciousStable;
+                Presenter.UpdateStableStatus();
+                ResetDeathSavingThrows();
+                Console.Write($"{DisplayName} is now stable");
+            }
+
+        }
+
+        private void ResetDeathSavingThrows()
+        {
+            DeathSavingThrowFailures = 0;
+            DeathSavingThrowSuccesses = 0;
+            _deathSavingThrows.Clear();
+            Presenter.ResetDeathSavingThrows();
         }
     }
 }

@@ -6,9 +6,9 @@ namespace MonsterQuest
 {
     public class AttackAction : IAction
     {
-        private Creature _attacker;
-        private Creature _target;
-        private WeaponType _weaponType;
+        private readonly Creature _attacker;
+        private readonly Creature _target;
+        private readonly WeaponType _weaponType;
 
         // CONSTRUCTORS
         public AttackAction(Creature attacker, Creature target, WeaponType weaponType)
