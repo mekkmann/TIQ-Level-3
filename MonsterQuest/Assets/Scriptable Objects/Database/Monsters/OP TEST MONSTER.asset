@@ -20,3 +20,16 @@ MonoBehaviour:
   WeaponTypes:
   - {fileID: 11400000, guid: 9d4e0830e847f794bac60f541a0a1680, type: 2}
   BodySprite: {fileID: 21300000, guid: 55524b0152da144b29f8d4d0089ef572, type: 3}
+  AbilityScores:
+    <Strength>k__BackingField:
+      <Score>k__BackingField: 20
+    <Dexterity>k__BackingField:
+      <Score>k__BackingField: 20
+    <Constitution>k__BackingField:
+      <Score>k__BackingField: 20
+    <Intelligence>k__BackingField:
+      <Score>k__BackingField: 20
+    <Wisdom>k__BackingField:
+      <Score>k__BackingField: 20
+    <Charisma>k__BackingField:
+      <Score>k__BackingField: 20
