@@ -9,13 +9,15 @@ namespace MonsterQuest
         private readonly Creature _attacker;
         private readonly Creature _target;
         private readonly WeaponType _weaponType;
+        private readonly Ability? _ability;
 
         // CONSTRUCTORS
-        public AttackAction(Creature attacker, Creature target, WeaponType weaponType)
+        public AttackAction(Creature attacker, Creature target, WeaponType weaponType, Ability? ability = Ability.None)
         {
             _attacker = attacker;
             _target = target;
             _weaponType = weaponType;
+            _ability = ability;
         }
 
         // METHODS
@@ -38,7 +40,24 @@ namespace MonsterQuest
                 default:
                     break;
             }
-
+            int modifier = 0;
+            if (!_weaponType.IsRanged)
+            {
+                modifier += _attacker.AbilityScores[Ability.Strength].Modifier;
+            } else if (_weaponType.IsRanged)
+            {
+                modifier += _attacker.AbilityScores[Ability.Dexterity].Modifier;
+            } else if (_weaponType.IsFinesse)
+            {
+                if (_ability != Ability.None)
+                {
+                    modifier += _attacker.AbilityScores[(Ability)_ability].Modifier;
+                } else
+                {
+                    modifier += _attacker.AbilityScores[Ability.Strength].Modifier > _attacker.AbilityScores[Ability.Dexterity].Modifier 
+                        ? _attacker.AbilityScores[Ability.Strength].Modifier : _attacker.AbilityScores[Ability.Dexterity].Modifier;
+                }
+            }
             // C
             if (attackRoll == 1)
             {
@@ -54,9 +73,9 @@ namespace MonsterQuest
                 yield return _attacker.Presenter.Attack();
                 yield return _target.ReactToDamage(totalDamage, true);
             }
-            else if (attackRoll + _attacker.AbilityScores.Strength.Modifier >= _target.ArmorClass)
+            else if (attackRoll + modifier >= _target.ArmorClass)
             {
-                int totalDamage = _attacker.AbilityScores.Strength.Modifier;
+                int totalDamage = modifier;
                 totalDamage += DiceHelper.Roll(_weaponType.DamageRoll);
                 if (totalDamage < 0)
                 {

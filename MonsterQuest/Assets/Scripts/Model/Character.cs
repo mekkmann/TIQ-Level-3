@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace MonsterQuest
@@ -104,7 +105,13 @@ namespace MonsterQuest
             IAction action = null;
             if (LifeStatus == LifeStatus.Conscious)
             {
-                action = new AttackAction(this, gameState.Combat.Monster, WeaponType);
+                Ability ability = Ability.None;
+                if (WeaponType.IsFinesse)
+                {
+                        ability = AbilityScores[Ability.Strength].Modifier > AbilityScores[Ability.Dexterity].Modifier
+                            ? Ability.Strength : Ability.Dexterity;
+                }
+                action = new AttackAction(this, gameState.Combat.Monster, WeaponType, ability);
             }
             
             if (LifeStatus == LifeStatus.UnconsciousUnstable)

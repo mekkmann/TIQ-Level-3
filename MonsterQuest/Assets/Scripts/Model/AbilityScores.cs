@@ -5,6 +5,17 @@ using UnityEngine;
 
 namespace MonsterQuest
 {
+    public enum Ability
+    {
+        None,
+        Strength,
+        Dexterity,
+        Constitution,
+        Intelligence,
+        Wisdom,
+        Charisma
+    }
+
     [Serializable]
     public class AbilityScores
     {
@@ -20,6 +31,24 @@ namespace MonsterQuest
         public AbilityScore Wisdom { get; private set; }
         [field: SerializeField]
         public AbilityScore Charisma { get; private set; }
+
+        // INDEXER
+        public AbilityScore this[Ability ability]
+        {
+            get
+            {
+                return ability switch
+                {
+                    Ability.Strength => Strength,
+                    Ability.Dexterity => Dexterity,
+                    Ability.Constitution => Constitution,
+                    Ability.Intelligence => Intelligence,
+                    Ability.Wisdom => Wisdom,
+                    Ability.Charisma => Charisma,
+                    _ => null,
+                };
+            }
+        }
 
         // PRIMARY CONSTRUCTOR
         public AbilityScores(AbilityScore strength, AbilityScore dexterity, AbilityScore constitution, AbilityScore intelligence, AbilityScore wisdom, AbilityScore charisma)
