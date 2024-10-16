@@ -13,6 +13,13 @@ namespace MonsterQuest
         public override IEnumerable<bool> DeathSavingThrows { get { return _deathSavingThrows; } protected set { } }
         public override int ArmorClass { get; set; }
 
+        public override AbilityScores AbilityScores { 
+            get
+            {
+                return Type.AbilityScores;
+            } 
+        }
+
         // CONSTRUCTORS
         public Monster(MonsterType type)
             : base(type.DisplayName, type.BodySprite, type.SizeCategory)

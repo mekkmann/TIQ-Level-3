@@ -54,10 +54,14 @@ namespace MonsterQuest
                 yield return _attacker.Presenter.Attack();
                 yield return _target.ReactToDamage(totalDamage, true);
             }
-            else if (attackRoll >= _target.ArmorClass)
+            else if (attackRoll + _attacker.AbilityScores.Strength.Modifier >= _target.ArmorClass)
             {
-                int totalDamage = 0;
+                int totalDamage = _attacker.AbilityScores.Strength.Modifier;
                 totalDamage += DiceHelper.Roll(_weaponType.DamageRoll);
+                if (totalDamage < 0)
+                {
+                    totalDamage = 0;
+                }
                 Console.WriteLine($"{_attacker.DisplayName} attacks {_target.DisplayName} with {_weaponType.DisplayName} for {totalDamage} damage!");
                 yield return _attacker.Presenter.Attack();
                 yield return _target.ReactToDamage(totalDamage, false);

@@ -25,8 +25,9 @@ namespace MonsterQuest
         public abstract IEnumerable<bool> DeathSavingThrows { get; protected set; }
         public int DeathSavingThrowFailures { get; set; }
         public int DeathSavingThrowSuccesses { get; set; }
-
         public abstract int ArmorClass { get; set; }
+
+        public abstract AbilityScores AbilityScores { get; }
         // CONSTRUCTORS
         public Creature(string displayName, Sprite bodySprite, SizeCategory sizeCat)
         {

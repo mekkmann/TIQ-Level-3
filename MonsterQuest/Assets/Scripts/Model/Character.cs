@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,6 +15,7 @@ namespace MonsterQuest
         private List<bool> _deathSavingThrows = new();
         public override IEnumerable<bool> DeathSavingThrows { get { return _deathSavingThrows; } protected set { } }
         public override int ArmorClass { get; set; }
+        public override AbilityScores AbilityScores { get; }
 
         // CONSTRUCTORS
         public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType)
@@ -22,6 +25,21 @@ namespace MonsterQuest
             ArmorType = armorType;
             HitPointsMaximum = hitPointsMaximum;
             ArmorClass = armorType.ArmorClass;
+
+            List<int> abilityScores = new();
+            System.Random random = new ();
+            for (int i = 0; i < 6; i++)
+            {
+                List<int> temp = new ();
+                for (int j = 0; j < 4; j++)
+                {
+                    temp.Add(random.Next(1, 7));
+                }
+                temp.Remove(temp.Min());
+                int totalTemp = temp.Sum();
+                abilityScores.Add(totalTemp);
+            }
+            AbilityScores = new(abilityScores[0], abilityScores[1], abilityScores[2], abilityScores[3], abilityScores[4], abilityScores[5]);
             Initialize();
         }
 

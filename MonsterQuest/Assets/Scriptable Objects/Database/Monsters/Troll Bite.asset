@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Troll Bite
   Weight: 0
-  DamageRoll: 1d6+4
+  DamageRoll: 1d6
