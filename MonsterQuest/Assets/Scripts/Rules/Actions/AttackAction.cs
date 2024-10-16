@@ -54,7 +54,7 @@ namespace MonsterQuest
                     modifier += _attacker.AbilityScores[(Ability)_ability].Modifier;
                 } else
                 {
-                    modifier += _attacker.AbilityScores[Ability.Strength].Modifier > _attacker.AbilityScores[Ability.Dexterity].Modifier 
+                    modifier += _attacker.AbilityScores[Ability.Strength] > _attacker.AbilityScores[Ability.Dexterity]
                         ? _attacker.AbilityScores[Ability.Strength].Modifier : _attacker.AbilityScores[Ability.Dexterity].Modifier;
                 }
             }

@@ -18,9 +18,18 @@ namespace MonsterQuest
                 return Mathf.FloorToInt(rawModifier);
             }
         }
+
+        // CONSTRUCTOR
         public AbilityScore(int value)
         {
             Score = value;
         }
+
+        // IMPLICIT CONVERSION OPERATOR
+        public static implicit operator int(AbilityScore abilityScore) 
+        { 
+            return abilityScore.Score;
+        }
+
     }
 }

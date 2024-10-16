@@ -38,11 +38,19 @@ namespace MonsterQuest
             // makes sure target is alive
             List<Character> aliveCharacters = gameState.Party.Characters.Where(chr => chr.LifeStatus != LifeStatus.Dead).ToList();
             // choose target
-            Character target = aliveCharacters[rnd.Next(0, aliveCharacters.Count)];
+            Character target = null;
+            if (AbilityScores[Ability.Intelligence] > 7)
+            {
+                target = aliveCharacters.OrderBy(chr => chr.HitPoints).First();
+            } else
+            {
+                target = aliveCharacters[rnd.Next(0, aliveCharacters.Count)];
+            }
             // choose weapon
             WeaponType weapon = Type.WeaponTypes[rnd.Next(0, Type.WeaponTypes.Count)];
 
             AttackAction action = new(this, target, weapon);
+
 
             return action;
         }

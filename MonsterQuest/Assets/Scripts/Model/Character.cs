@@ -108,7 +108,7 @@ namespace MonsterQuest
                 Ability ability = Ability.None;
                 if (WeaponType.IsFinesse)
                 {
-                        ability = AbilityScores[Ability.Strength].Modifier > AbilityScores[Ability.Dexterity].Modifier
+                        ability = AbilityScores[Ability.Strength] > AbilityScores[Ability.Dexterity]
                             ? Ability.Strength : Ability.Dexterity;
                 }
                 action = new AttackAction(this, gameState.Combat.Monster, WeaponType, ability);
