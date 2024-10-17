@@ -44,10 +44,10 @@ namespace MonsterQuest
                 target = aliveCharacters.OrderBy(chr => chr.HitPoints).First();
             } else
             {
-                target = aliveCharacters[rnd.Next(0, aliveCharacters.Count)];
+                target = aliveCharacters.Random();
             }
             // choose weapon
-            WeaponType weapon = Type.WeaponTypes[rnd.Next(0, Type.WeaponTypes.Count)];
+            WeaponType weapon = Type.WeaponTypes.Random();
 
             AttackAction action = new(this, target, weapon);
 
