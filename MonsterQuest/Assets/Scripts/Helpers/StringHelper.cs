@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace MonsterQuest
 {
@@ -27,5 +29,11 @@ namespace MonsterQuest
 
             return string.Join(", ", charactersCopy);
         }
+
+        public static string ToUpperFirst(this string value)
+        {
+            return value[0].ToString().ToUpper() + value[1..];
+        }
+    
     }
 }

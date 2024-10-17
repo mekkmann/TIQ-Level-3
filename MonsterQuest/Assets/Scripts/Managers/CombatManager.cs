@@ -12,7 +12,7 @@ namespace MonsterQuest
         {
             Monster monster = gamestate.Combat.Monster;
             List<Character> characters = gamestate.Party.Characters;
-            Console.WriteLine($"Watch out, {monster.DisplayName} with {monster.HitPoints} HP appears!\n");
+            Console.WriteLine($"watch out, {monster.DisplayName} with {monster.HitPoints} HP appears!\n".ToUpperFirst());
 
             turnOrder.Clear();
             turnOrder.AddRange(characters);
