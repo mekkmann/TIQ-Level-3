@@ -7,10 +7,10 @@ namespace MonsterQuest
     public static class ListHelper
     {
         public static System.Random Random = new();
-        public static List<Creature> Shuffle(List<Creature> toShuffle)
+        public static List<T> Shuffle<T>(IList<T> toShuffle)
         {
          
-            List<Creature> shuffled = new(toShuffle);
+            List<T> shuffled = new(toShuffle);
 
             int copyCount = shuffled.Count;
 
