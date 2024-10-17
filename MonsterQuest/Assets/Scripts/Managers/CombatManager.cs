@@ -17,8 +17,7 @@ namespace MonsterQuest
             turnOrder.Clear();
             turnOrder.AddRange(characters);
             turnOrder.Add(monster);
-            turnOrder = ListHelper.Shuffle(turnOrder);
-
+            turnOrder.ExtensionShuffle();
             do
             {
                 foreach (Creature creature in turnOrder)
