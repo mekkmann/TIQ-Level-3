@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Template name="AbilityScoreContainer" src="project://database/Assets/Editor/AbilityScoreContainer.uxml?fileID=9197481963319205126&amp;guid=03b6ab10d8959a249adccdf090ed3771&amp;type=3#AbilityScoreContainer" />
+    <ui:TextField picking-mode="Ignore" label="Display Name" name="DisplayName" binding-path="DisplayName" />
+    <uie:PropertyField name="SizeCategory" label="Size Category" binding-path="SizeCategory" style="height: -12px; width: 346px;" />
+    <ui:TextField picking-mode="Ignore" label="Alignment" name="Alignment" binding-path="Alignment" />
+    <ui:TextField picking-mode="Ignore" label="Hp Roll" name="HpRoll" binding-path="HpRoll" />
+    <uie:PropertyField name="ArmorType" binding-path="ArmorType" label="Armor Type" />
+    <uie:PropertyField name="WeaponTypes" binding-path="WeaponTypes" label="WeaponTypes" />
+    <uie:PropertyField name="BodySprite" label="Body Sprite" binding-path="BodySprite" />
+    <uie:PropertyField binding-path="AbilityScores" label="Ability Scores" name="AbilitiScores1" />
+    <ui:Instance template="AbilityScoreContainer" name="AbilityScoreContainer" binding-path="AbilityScores" />
+</ui:UXML>

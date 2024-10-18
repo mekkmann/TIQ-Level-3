@@ -8,6 +8,7 @@ namespace MonsterQuest
     [Serializable]
     public class AbilityScore
     {
+        public int SScore = 10;
         [field: SerializeField]
         public int Score { get; set; }
         public int Modifier
