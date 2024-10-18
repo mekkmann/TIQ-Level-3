@@ -6,6 +6,7 @@ using UnityEngine.UIElements;
 
 namespace MonsterQuest
 {
+    // Using purely script to make the Inspector UI
     [CustomEditor(typeof(Car))]
     public class Car_Inspector : Editor
     {
