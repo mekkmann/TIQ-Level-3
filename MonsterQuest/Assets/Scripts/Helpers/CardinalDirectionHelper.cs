@@ -11,14 +11,30 @@ namespace MonsterQuest
 
         public static readonly Dictionary<CardinalDirection, Vector2> cardinalDirectionVectors = new()
         {
-            { CardinalDirection.South, new Vector2(0, 1) },
-            { CardinalDirection.Southwest, new Vector2(-1, 1) },
-            { CardinalDirection.West, new Vector2(-1, 0) },
-            { CardinalDirection.Northwest, new Vector2(-1, -1) },
-            { CardinalDirection.North, new Vector2(0, -1) },
-            { CardinalDirection.Northeast, new Vector2(1, -1) },
-            { CardinalDirection.East, new Vector2(1, 0) },
-            { CardinalDirection.Southeast, new Vector2(1, 1) }
+            {
+                CardinalDirection.South, new Vector2(0, -1)
+            },
+            {
+                CardinalDirection.Southwest, new Vector2(-1, -1)
+            },
+            {
+                CardinalDirection.West, new Vector2(-1, 0)
+            },
+            {
+                CardinalDirection.Northwest, new Vector2(-1, 1)
+            },
+            {
+                CardinalDirection.North, new Vector2(0, 1)
+            },
+            {
+                CardinalDirection.Northeast, new Vector2(1, 1)
+            },
+            {
+                CardinalDirection.East, new Vector2(1, 0)
+            },
+            {
+                CardinalDirection.Southeast, new Vector2(1, -1)
+            }
         };
 
         public static readonly Dictionary<CardinalDirection, float> cardinalDirectionRotationsDegrees = new();
