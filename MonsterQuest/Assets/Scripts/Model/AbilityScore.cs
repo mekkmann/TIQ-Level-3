@@ -8,14 +8,13 @@ namespace MonsterQuest
     [Serializable]
     public class AbilityScore
     {
-        public int SScore = 10;
         [field: SerializeField]
         public int Score { get; set; }
         public int Modifier
         {
             get
             {
-                float rawModifier = (Score / 2) - 10;
+                float rawModifier = (Score -10) / 2;
                 return Mathf.FloorToInt(rawModifier);
             }
         }
