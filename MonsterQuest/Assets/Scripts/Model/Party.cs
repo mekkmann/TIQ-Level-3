@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace MonsterQuest
 {
+    [Serializable]
     public class Party
     {
         // PROPERTIES

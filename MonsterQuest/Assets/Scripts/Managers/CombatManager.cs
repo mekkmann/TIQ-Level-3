@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -25,6 +24,7 @@ namespace MonsterQuest
                     continue;
                 }
                 IAction turn = creatureToTakeTurn.TakeTurn(gamestate);
+                SaveGameHelper.Save(gamestate);
                 yield return StartCoroutine(turn.Execute());
                 
             } while (monster.HitPoints > 0 && gamestate.Party.Characters.Any(chr => chr.LifeStatus != LifeStatus.Dead));
@@ -38,6 +38,7 @@ namespace MonsterQuest
             else
             {
                 Console.WriteLine($"The party has failed and the {monster.DisplayName} continues to attack unsuspecting adventurers.");
+                SaveGameHelper.Delete();
             }
             gamestate.ExitCombat();
         }

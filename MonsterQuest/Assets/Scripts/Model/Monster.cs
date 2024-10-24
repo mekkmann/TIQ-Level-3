@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace MonsterQuest
 {
+    [Serializable]
     public class Monster : Creature
     {
         public MonsterType Type { get; }

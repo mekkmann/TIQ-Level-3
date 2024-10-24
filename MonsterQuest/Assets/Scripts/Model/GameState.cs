@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace MonsterQuest
 {
+    [Serializable]
     public class GameState
     {
         public Party Party { get; private set; }
@@ -18,7 +20,10 @@ namespace MonsterQuest
 
         public void EnterCombatWithMonster()
         {
-            CurrentMonsterIndex++;
+            if (CurrentMonsterIndex < AllMonsterTypes.Count)
+            {
+                CurrentMonsterIndex++; 
+            }
             Monster nextMonster = new(AllMonsterTypes[CurrentMonsterIndex - 1]);
             Combat = new(this, nextMonster);
         }

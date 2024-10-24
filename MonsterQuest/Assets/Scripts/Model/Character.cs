@@ -2,12 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace MonsterQuest
 {
+    [Serializable]
     public class Character : Creature
     {
         // PROPERTIES
@@ -85,7 +84,7 @@ namespace MonsterQuest
                     _deathSavingThrows.Add(false);
                     Console.WriteLine($"{DisplayName} fails two death saving throws");
                     yield return Presenter.PerformDeathSavingThrow(false);
-                    if (DeathSavingThrowFailures < 3)
+                    if (DeathSavingThrowFailures <= 3)
                     {
                         yield return Presenter.PerformDeathSavingThrow(false);
                     }
@@ -95,7 +94,7 @@ namespace MonsterQuest
                 {
                     LifeStatus = LifeStatus.Dead;
                     Presenter.UpdateStableStatus();
-                    Console.Write($"{DisplayName} meets their untimely end");
+                    Console.WriteLine($"{DisplayName} meets their untimely end");
                     yield return Presenter.Die();
                 }
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,7 @@ namespace MonsterQuest
         UnconsciousUnstable,
         Dead
     }
+    [Serializable]
     public abstract class Creature
     {
         public string DisplayName { get; protected set; }
@@ -19,7 +21,7 @@ namespace MonsterQuest
         public Sprite BodySprite { get; protected set; }
         public SizeCategory SizeCat { get; protected set; }
         public float SpaceInFeet => SizeHelper.spaceInFeetPerSizeCategory[SizeCat];
-        public CreaturePresenter Presenter { get; private set; }
+        [field: NonSerialized] public CreaturePresenter Presenter { get; private set; }
 
         public LifeStatus LifeStatus { get; set; }
         public abstract IEnumerable<bool> DeathSavingThrows { get; protected set; }
