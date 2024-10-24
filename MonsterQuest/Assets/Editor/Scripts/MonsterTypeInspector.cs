@@ -1,42 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEditor;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace MonsterQuest
 {
     [CustomEditor(typeof(MonsterType))]
-    //public class MonsterTypeInspector : Editor
-    //{
-    //    public string[] Options = MonsterTypeImporter.MonsterIndexNames;
-    //    public int SelectedIndex = -1;
-    //    public VisualTreeAsset Inspector_UXML;
-    //    public override VisualElement CreateInspectorGUI()
-    //    {
-    //        // Create a new VisualElement to be the root of our Inspector UI
-    //        VisualElement inspector = new();
-    //        // Load from UXML
-    //        Inspector_UXML.CloneTree(inspector);
-    //        //OnInspectorGUI();
-
-    //        // Return custom Inspector
-    //        return inspector;
-    //    }
-    //    //public override void OnInspectorGUI()
-    //    //{
-    //    //    SelectedIndex = EditorGUILayout.Popup("Load Monster", SelectedIndex, Options);
-    //    //    DrawDefaultInspector();
-    //    //}
-    //}
     public class MonsterTypeInspector : Editor
     {
-        public string[] Options = MonsterTypeImporter.MonsterIndexNames;
-        public int SelectedIndex = -1;
-        public override void OnInspectorGUI()
+        public override VisualElement CreateInspectorGUI()
         {
-            SelectedIndex = EditorGUILayout.Popup("Load Monster", SelectedIndex, Options);
-            DrawDefaultInspector();
+            VisualElement root = new();
+
+            VisualElement importContainer = new();
+            importContainer.Add(new Label("Import Monster"));
+            DropdownField dropDown = new();
+            dropDown.choices.AddRange(MonsterTypeImporter.MonsterIndexNames);
+            dropDown.RegisterValueChangedCallback(OnDropdownValueChanged);
+            importContainer.Add(dropDown);
+
+            root.Add(importContainer);
+
+            InspectorElement.FillDefaultInspector(root, serializedObject, this);
+
+            return root;
+        }
+
+        private void OnDropdownValueChanged(ChangeEvent<string> changeEvent)
+        {
+            MonsterTypeImporter.ImportData(changeEvent.newValue, serializedObject.targetObject as MonsterType);
         }
     }
 }

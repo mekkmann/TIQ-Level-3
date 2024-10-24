@@ -10,31 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b8606d8f037f6044d9302a4940cd6362, type: 3}
-  m_Name: New Monster Type
+  m_Name: Bat
   m_EditorClassIdentifier: 
-  DisplayName: 
-  SizeCategory: 0
-  Alignment: 
-  HpRoll: 
-  ArmorType: {fileID: 0}
-  WeaponTypes: []
-  BodySprite: {fileID: 0}
+  DisplayName: Bat
+  SizeCategory: 1
+  Alignment: unaligned
+  HpRoll: 1d4-1
+  ArmorType: {fileID: 11400000, guid: 16ce103bfa077284f896c50627a0d8e1, type: 2}
+  WeaponTypes:
+  - {fileID: 11400000, guid: cce6b34aafe7ce646a8267964497d4e8, type: 2}
+  BodySprite: {fileID: 21300000, guid: 2a9397f2e9d7249bc9f2db58b41a545b, type: 3}
   AbilityScores:
     <Strength>k__BackingField:
-      SScore: 0
-      <Score>k__BackingField: 0
+      <Score>k__BackingField: 2
     <Dexterity>k__BackingField:
-      SScore: 0
-      <Score>k__BackingField: 0
+      <Score>k__BackingField: 15
     <Constitution>k__BackingField:
-      SScore: 0
-      <Score>k__BackingField: 0
+      <Score>k__BackingField: 8
     <Intelligence>k__BackingField:
-      SScore: 0
-      <Score>k__BackingField: 0
+      <Score>k__BackingField: 2
     <Wisdom>k__BackingField:
-      SScore: 0
-      <Score>k__BackingField: 0
+      <Score>k__BackingField: 12
     <Charisma>k__BackingField:
-      SScore: 0
-      <Score>k__BackingField: 0
+      <Score>k__BackingField: 4

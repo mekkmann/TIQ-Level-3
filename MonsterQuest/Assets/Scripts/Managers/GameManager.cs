@@ -78,7 +78,14 @@ namespace MonsterQuest
             _gameState.EnterCombatWithMonster(orc);
             yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
             yield return StartCoroutine(_combatManager.Simulate(_gameState));
-
+            if (_gameState.Party.Characters.Count > 0)
+            {
+                Monster swarm = new(Database.GetMonsterType("Bat"));
+                _gameState.EnterCombatWithMonster(swarm);
+                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
+                yield return new WaitForSeconds(2f);
+                yield return StartCoroutine(_combatManager.Simulate(_gameState));
+            }
             if (_gameState.Party.Characters.Count > 0)
             {
                 Monster swarm = new(Database.GetMonsterType("Swarm of Poisonous Snakes"));
