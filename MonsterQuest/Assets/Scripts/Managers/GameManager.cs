@@ -64,15 +64,15 @@ namespace MonsterQuest
 
 
             // OP TEST MONSTER /////////////////
-            //if (_gameState.Party.Characters.Count > 0)
-            //{
-            //    Monster swarm = new(Database.GetMonsterType("OP TEST MONSTER"));
-            //    _gameState.EnterCombatWithMonster(swarm);
-            //    yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-            //    yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            //}
+            if (_gameState.Party.Characters.Count > 0)
+            {
+                Monster OPTESTMONSTER = new(Database.GetMonsterType("OP TEST MONSTER"));
+                _gameState.EnterCombatWithMonster(OPTESTMONSTER);
+                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
+                yield return StartCoroutine(_combatManager.Simulate(_gameState));
+            }
             ////////////////////////////////////
-           
+
 
             Monster orc = new(_monsterTypes[0]);
             _gameState.EnterCombatWithMonster(orc);

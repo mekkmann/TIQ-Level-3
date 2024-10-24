@@ -12,7 +12,7 @@ namespace MonsterQuest
 
         public void EnterCombatWithMonster(Monster monster)
         {
-            Combat = new(monster);
+            Combat = new(this, monster);
         }
     }
 }
