@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8606d8f037f6044d9302a4940cd6362, type: 3}
+  m_Name: New Monster Type
+  m_EditorClassIdentifier: 
+  DisplayName: 
+  SizeCategory: 0
+  Alignment: 
+  HpRoll: 
+  ArmorType: {fileID: 0}
+  WeaponTypes: []
+  BodySprite: {fileID: 0}
+  AbilityScores:
+    <Strength>k__BackingField:
+      <Score>k__BackingField: 0
+    <Dexterity>k__BackingField:
+      <Score>k__BackingField: 0
+    <Constitution>k__BackingField:
+      <Score>k__BackingField: 0
+    <Intelligence>k__BackingField:
+      <Score>k__BackingField: 0
+    <Wisdom>k__BackingField:
+      <Score>k__BackingField: 0
+    <Charisma>k__BackingField:
+      <Score>k__BackingField: 0

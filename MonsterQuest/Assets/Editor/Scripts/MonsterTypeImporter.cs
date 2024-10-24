@@ -75,6 +75,8 @@ namespace MonsterQuest
             monsterType.Alignment = alignment;
             monsterType.HpRoll = hpRoll;
             monsterType.AbilityScores = new(strength, dexterity, constitution, intelligence, wisdom, charisma);
+
+            Debug.Log($"Link to full Monster Data: [ https://www.dnd5eapi.co/api/monsters/{index} ]");
         }
         
 
