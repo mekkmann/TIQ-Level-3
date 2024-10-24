@@ -47,8 +47,18 @@ namespace MonsterQuest
                     }
                 );
 
-            // create GameState with party
-            _gameState = new(party);
+            // list of all MonsterTypes the party will fight
+            List<MonsterType> monsterTypes = new()
+            {
+                Database.GetMonsterType("Orc"),
+                Database.GetMonsterType("Bat"),
+                Database.GetMonsterType("Swarm of Poisonous Snakes"),
+                Database.GetMonsterType("Azer"),
+                Database.GetMonsterType("Troll"),
+            };
+
+            // create GameState with party and list of MonsterTypes
+            _gameState = new(party, monsterTypes);
         }
 
         private IEnumerator Simulate()
@@ -62,56 +72,13 @@ namespace MonsterQuest
 
             Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
 
-
-            // OP TEST MONSTER /////////////////
-            if (_gameState.Party.Characters.Count > 0)
+            while (_gameState.CurrentMonsterIndex <= _gameState.AllMonsterTypes.Count && _gameState.Party.Characters.Count > 0)
             {
-                Monster OPTESTMONSTER = new(Database.GetMonsterType("OP TEST MONSTER"));
-                _gameState.EnterCombatWithMonster(OPTESTMONSTER);
+                if(_gameState.Combat == null)
+                {
+                    _gameState.EnterCombatWithMonster();
+                }
                 yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-                yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            }
-            ////////////////////////////////////
-
-
-            Monster orc = new(_monsterTypes[0]);
-            _gameState.EnterCombatWithMonster(orc);
-            yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-            yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            if (_gameState.Party.Characters.Count > 0)
-            {
-                Monster swarm = new(Database.GetMonsterType("Bat"));
-                _gameState.EnterCombatWithMonster(swarm);
-                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-                yield return new WaitForSeconds(2f);
-                yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            }
-            if (_gameState.Party.Characters.Count > 0)
-            {
-                Monster swarm = new(Database.GetMonsterType("Swarm of Poisonous Snakes"));
-                _gameState.EnterCombatWithMonster(swarm);
-                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-                yield return new WaitForSeconds(2f);
-                yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            }
-
-            if (_gameState.Party.Characters.Count > 0)
-            {
-                Monster azer = new(_monsterTypes[1]);
-                _gameState.EnterCombatWithMonster(azer);
-                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-                yield return new WaitForSeconds(2f);
-
-                yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            }
-
-            if (_gameState.Party.Characters.Count > 0)
-            {
-                Monster troll = new(_monsterTypes[2]);
-                _gameState.EnterCombatWithMonster(troll);
-                yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
-                yield return new WaitForSeconds(2f);
-
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
             }
 

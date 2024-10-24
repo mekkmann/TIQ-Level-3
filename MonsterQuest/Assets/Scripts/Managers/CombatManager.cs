@@ -39,6 +39,7 @@ namespace MonsterQuest
             {
                 Console.WriteLine($"The party has failed and the {monster.DisplayName} continues to attack unsuspecting adventurers.");
             }
+            gamestate.ExitCombat();
         }
     }
 }
