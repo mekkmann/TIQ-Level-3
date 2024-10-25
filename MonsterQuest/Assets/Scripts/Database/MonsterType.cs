@@ -14,9 +14,10 @@ namespace MonsterQuest
         public List<WeaponType> WeaponTypes;
         public Sprite BodySprite;
         public AbilityScores AbilityScores;
+        public float ChallengeRating;
 
         // CONSTRUCTORS
-        public MonsterType(string displayName, SizeCategory sizeCategory, string alignment, string hpRoll, ArmorType armorType, List<WeaponType> weaponTypes, Sprite bodySprite, AbilityScores abilityScores)
+        public MonsterType(string displayName, SizeCategory sizeCategory, string alignment, string hpRoll, ArmorType armorType, List<WeaponType> weaponTypes, Sprite bodySprite, AbilityScores abilityScores, int challengeRating)
         {
             DisplayName = displayName;
             SizeCategory = sizeCategory;
@@ -26,6 +27,7 @@ namespace MonsterQuest
             WeaponTypes = new (weaponTypes);
             BodySprite = bodySprite;
             AbilityScores = abilityScores;
+            ChallengeRating = challengeRating;
         }
     }
 }

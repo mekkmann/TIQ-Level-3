@@ -40,6 +40,14 @@ namespace MonsterQuest
                 default:
                     break;
             }
+
+
+            if (_attacker.IsProficientWithWeaponType(_weaponType))
+            {
+                attackRoll += _attacker.ProficiencyBonus;
+            }
+
+
             int modifier = 0;
             if (!_weaponType.IsRanged)
             {
@@ -64,7 +72,7 @@ namespace MonsterQuest
                 Console.WriteLine($"{_attacker.DisplayName} attacks {_target.DisplayName} with {_weaponType.DisplayName} but misses");
                 yield return _attacker.Presenter.Attack();
             }
-            else if (attackRoll == 20)
+            else if (attackRoll >= 20)
             {
                 int totalDamage = 0;
                 totalDamage += DiceHelper.Roll(_weaponType.DamageRoll);

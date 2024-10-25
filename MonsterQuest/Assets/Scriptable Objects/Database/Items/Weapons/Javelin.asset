@@ -15,3 +15,6 @@ MonoBehaviour:
   DisplayName: Javelin
   Weight: 2
   DamageRoll: 1d6
+  IsRanged: 0
+  IsFinesse: 0
+  WeaponCategories: 0000000009000000

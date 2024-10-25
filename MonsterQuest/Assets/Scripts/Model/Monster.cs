@@ -20,6 +20,9 @@ namespace MonsterQuest
                 return Type.AbilityScores;
             } 
         }
+        protected override int ProficiencyBonusBase {
+            get { return Convert.ToInt32(Type.ChallengeRating); }
+        }
 
         // CONSTRUCTORS
         public Monster(MonsterType type)
@@ -54,6 +57,12 @@ namespace MonsterQuest
 
 
             return action;
+        }
+
+        public override bool IsProficientWithWeaponType(WeaponType type)
+        {
+            // always returns true because we assume a monster is proficient with its equipment
+            return true;
         }
     }
 }

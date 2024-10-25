@@ -15,3 +15,6 @@ MonoBehaviour:
   DisplayName: Warhammer
   Weight: 2
   DamageRoll: 1d8
+  IsRanged: 0
+  IsFinesse: 0
+  WeaponCategories: 01000000

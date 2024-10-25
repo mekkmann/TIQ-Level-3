@@ -49,10 +49,10 @@ namespace MonsterQuest
             // create party
             Party party = new(
                 new List<Character>() {
-                    new("Assassin", 10, _characterSprites[0], SizeCategory.Medium, weapons[0], studdedLeather),
-                    new("Mage", 10, _characterSprites[1], SizeCategory.Medium, weapons[1], studdedLeather),
-                    new("Paladin", 10, _characterSprites[2], SizeCategory.Medium, weapons[2], studdedLeather),
-                    new("Warrior", 10, _characterSprites[3], SizeCategory.Medium, weapons[3], studdedLeather)
+                    new("Assassin", 10, _characterSprites[0], SizeCategory.Medium, weapons[0], studdedLeather, Database.GetClassType("Fighter")),
+                    new("Mage", 10, _characterSprites[1], SizeCategory.Medium, weapons[1], studdedLeather, Database.GetClassType("Fighter")),
+                    new("Paladin", 10, _characterSprites[2], SizeCategory.Medium, weapons[2], studdedLeather, Database.GetClassType("Fighter")),
+                    new("Warrior", 10, _characterSprites[3], SizeCategory.Medium, weapons[3], studdedLeather, Database.GetClassType("Fighter"))
                     }
                 );
 

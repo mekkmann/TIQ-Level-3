@@ -16,7 +16,9 @@ namespace MonsterQuest
         private static readonly int _dieHash = Animator.StringToHash("Die");
         private static readonly int _stableHash = Animator.StringToHash("Stable");
         private static readonly int _deathSavingThrowFailuresHash = Animator.StringToHash("Death saving throw failures");
-
+        private static readonly int _celebrateHash = Animator.StringToHash("Celebrate");
+        private static readonly int _levelUpHash = Animator.StringToHash("Level up");
+        
         [SerializeField] private Color damagedColor;
         [SerializeField] private Sprite[] standSprites;
 

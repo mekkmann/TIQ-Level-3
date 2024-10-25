@@ -28,6 +28,14 @@ namespace MonsterQuest
         public int DeathSavingThrowFailures { get; set; }
         public int DeathSavingThrowSuccesses { get; set; }
         public abstract int ArmorClass { get; set; }
+        protected abstract int ProficiencyBonusBase { get; }
+        public int ProficiencyBonus { 
+            get 
+            {
+
+                return 2 + Math.Max(0, (ProficiencyBonusBase - 1) / 4);
+            } 
+        }
 
         public abstract AbilityScores AbilityScores { get; }
         // CONSTRUCTORS
@@ -46,6 +54,7 @@ namespace MonsterQuest
         }
 
         public abstract IAction TakeTurn(GameState gameState);
+        public abstract bool IsProficientWithWeaponType(WeaponType type);
 
         public virtual IEnumerator Heal(int amount)
         {

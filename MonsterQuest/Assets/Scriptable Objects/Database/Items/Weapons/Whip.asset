@@ -17,3 +17,4 @@ MonoBehaviour:
   DamageRoll: 1d4
   IsRanged: 0
   IsFinesse: 1
+  WeaponCategories: 01000000

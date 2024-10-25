@@ -16,15 +16,22 @@ namespace MonsterQuest
         public override IEnumerable<bool> DeathSavingThrows { get { return _deathSavingThrows; } protected set { } }
         public override int ArmorClass { get; set; }
         public override AbilityScores AbilityScores { get; }
+        public int Level { get; private set; }
+        protected override int ProficiencyBonusBase
+        {
+            get { return Level; }
+        }
+        public ClassType ClassType { get; private set; }
 
         // CONSTRUCTORS
-        public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType)
+        public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType, ClassType classType)
             : base(displayName, bodySprite, sizeCat)
         {
             WeaponType = weaponType;
             ArmorType = armorType;
             HitPointsMaximum = hitPointsMaximum;
             ArmorClass = armorType.ArmorClass;
+            ClassType = classType;
 
             List<int> abilityScores = new();
             System.Random random = new ();
@@ -40,6 +47,7 @@ namespace MonsterQuest
                 abilityScores.Add(totalTemp);
             }
             AbilityScores = new(abilityScores[0], abilityScores[1], abilityScores[2], abilityScores[3], abilityScores[4], abilityScores[5]);
+            Level = 1;
             Initialize();
         }
 
@@ -188,6 +196,12 @@ namespace MonsterQuest
             DeathSavingThrowSuccesses = 0;
             _deathSavingThrows.Clear();
             Presenter.ResetDeathSavingThrows();
+        }
+
+        public override bool IsProficientWithWeaponType(WeaponType type)
+        {
+            Debug.Log(type.WeaponCategories.Any(wepType => ClassType.WeaponProficiencies.Contains(wepType)));
+            return type.WeaponCategories.Any( wepType => ClassType.WeaponProficiencies.Contains(wepType));
         }
     }
 }

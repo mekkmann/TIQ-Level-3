@@ -68,6 +68,7 @@ namespace MonsterQuest
             int intelligence = (int)monsterData["intelligence"];
             int wisdom = (int)monsterData["wisdom"];
             int charisma = (int)monsterData["charisma"];
+            float challengeRating = (float)monsterData["challenge_rating"];
 
             // Add data to the scriptableObject (monsterType)
             monsterType.DisplayName = displayName;
@@ -75,6 +76,7 @@ namespace MonsterQuest
             monsterType.Alignment = alignment;
             monsterType.HpRoll = hpRoll;
             monsterType.AbilityScores = new(strength, dexterity, constitution, intelligence, wisdom, charisma);
+            monsterType.ChallengeRating = challengeRating;
 
             Debug.Log($"Link to full Monster Data: [ https://www.dnd5eapi.co/api/monsters/{index} ]");
         }
