@@ -35,7 +35,6 @@ namespace MonsterQuest
 
             if (monster.HitPoints <= 0)
             {
-                // TODO: Does this xp method work?
                 Console.WriteLine($"The {monster.DisplayName} collapses and the heroes celebrate their victory!\n");
                 float xpForEachPartyMember = monster.Type.ExperienceValue / participatedInCombat.Count();
                 foreach (Character chr in participatedInCombat.Where(c => c.LifeStatus != LifeStatus.Dead))
@@ -43,11 +42,6 @@ namespace MonsterQuest
                     yield return StartCoroutine(chr.GainExperiencePoints(xpForEachPartyMember));
                 }
                 yield return new WaitForSeconds(2f);
-                //yield return new WaitForSeconds(2f);
-                //foreach (Character chr in participatedInCombat.Where(c => c.LifeStatus != LifeStatus.Dead))
-                //{
-                //    yield return StartCoroutine(chr.TakeShortRest());
-                //}
                 SaveGameHelper.Save(gamestate);
             }
             else

@@ -51,9 +51,8 @@ namespace MonsterQuest
             AbilityScores = new(abilityScores[0], abilityScores[1], abilityScores[2], abilityScores[3], abilityScores[4], abilityScores[5]);
             Level = 1;
             HitDiceMaximum = Level;
-            HitDiceRemaining = HitDiceMaximum;
             HitPointsMaximum = RollHitDie();
-            HitDiceRemaining++;
+            HitDiceRemaining = HitDiceMaximum;
             Initialize();
         }
 
@@ -68,12 +67,13 @@ namespace MonsterQuest
         {
             // Increase Level
             Level++;
+            // Increase MaximumHitDice by 1
+            HitDiceMaximum += 1;
+            HitDiceRemaining += 1;
             // Increase max hitpoints
             int hitDieResult = RollHitDie();
             HitPointsMaximum += hitDieResult > 1 ? hitDieResult : 1;
             Console.WriteLine($"{DisplayName} levels up to level {Level}! Their maximum HP increases to {HitPointsMaximum}.");
-            // Increase MaximumHitDice by 1
-            HitDiceMaximum += 1;
             yield return Presenter.LevelUp();
 
         }
@@ -96,17 +96,16 @@ namespace MonsterQuest
                     int hitDieResult = RollHitDie();
                     toHeal += hitDieResult > 0 ? hitDieResult : 0;
                 }
-
-                // TODO: Figure out best way for heals to take place
-                yield return Heal(Mathf.Clamp(toHeal, 0, HitPointsMaximum - HitPoints));
+                int actualHeal = Mathf.Clamp(toHeal, 0, HitPointsMaximum - HitPoints);
+                yield return Heal(actualHeal);
 
                 if (HitPoints == HitPointsMaximum)
                 {
-                    Console.WriteLine($"{DisplayName} heals {HitPointsMaximum - HitPoints} and is at full health ({HitPoints}/{HitPointsMaximum}).");
+                    Console.WriteLine($"{DisplayName} heals {actualHeal} and is at full health ({HitPoints}/{HitPointsMaximum}).");
                 }
                 else
                 {
-                    Console.WriteLine($"{DisplayName} heals {toHeal} and is at {HitPoints}/{HitPointsMaximum} health.");
+                    Console.WriteLine($"{DisplayName} heals {actualHeal} and is at {HitPoints}/{HitPointsMaximum} health.");
                 }
             }
         }

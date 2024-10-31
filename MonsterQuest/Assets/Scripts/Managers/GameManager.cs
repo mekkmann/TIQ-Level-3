@@ -92,6 +92,12 @@ namespace MonsterQuest
                 }
                 yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
+                foreach (Character chr in _gameState.Party.Characters.Where(c => c.LifeStatus != LifeStatus.Dead))
+                {
+                    yield return StartCoroutine(chr.TakeShortRest());
+                }
+                yield return new WaitForSeconds(1f);
+                SaveGameHelper.Save(_gameState);
             } while (_gameState.Party.Characters.Any(chr => chr.LifeStatus != LifeStatus.Dead) && _gameState.AllMonsterTypes.Count > _gameState.CurrentMonsterIndex);
 
             if (_gameState.Party.Characters.Any(chr => chr.LifeStatus != LifeStatus.Dead))
