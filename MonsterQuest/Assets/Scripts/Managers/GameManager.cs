@@ -30,7 +30,8 @@ namespace MonsterQuest
             {
                 Console.WriteLine("Loading save file...");
                 _gameState = SaveGameHelper.Load();
-            } else
+            }
+            else
             {
                 Console.WriteLine("Save file does not exist. Starting new game.");
                 NewGame();
@@ -61,11 +62,11 @@ namespace MonsterQuest
             {
                 //Database.GetMonsterType("Bat"),
                 //Database.GetMonsterType("Swarm of Poisonous Snakes"),
-                //Database.GetMonsterType("Orc"),
+                Database.GetMonsterType("Orc"),
                 //Database.GetMonsterType("Azer"),
-                //Database.GetMonsterType("Troll"),
-                Database.GetMonsterType("OP TEST MONSTER"),
-                Database.GetMonsterType("OP TEST MONSTER"),
+                Database.GetMonsterType("Troll"),
+                //Database.GetMonsterType("OP TEST MONSTER"),
+                //Database.GetMonsterType("OP TEST MONSTER"),
             };
 
             // create GameState with party and list of MonsterTypes
@@ -91,7 +92,7 @@ namespace MonsterQuest
                 }
                 yield return StartCoroutine(_combatPresenter.InitializeMonster(_gameState));
                 yield return StartCoroutine(_combatManager.Simulate(_gameState));
-            } while(_gameState.Party.Characters.Any(chr => chr.LifeStatus != LifeStatus.Dead) && _gameState.AllMonsterTypes.Count > _gameState.CurrentMonsterIndex);
+            } while (_gameState.Party.Characters.Any(chr => chr.LifeStatus != LifeStatus.Dead) && _gameState.AllMonsterTypes.Count > _gameState.CurrentMonsterIndex);
 
             if (_gameState.Party.Characters.Any(chr => chr.LifeStatus != LifeStatus.Dead))
             {

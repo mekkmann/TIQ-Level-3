@@ -1,13 +1,10 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Cache;
 using System.Net.Http;
 using System.Threading.Tasks;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 namespace MonsterQuest
@@ -16,15 +13,17 @@ namespace MonsterQuest
     {
         private static List<MonsterIndexEntry> _monsterIndexEntries;
         private static string[] _monsterIndexNames;
-        public static string[] MonsterIndexNames { 
-            get {
+        public static string[] MonsterIndexNames
+        {
+            get
+            {
 
                 if (_monsterIndexNames is null)
                 {
                     LoadMonsterNames();
                 }
                 return _monsterIndexNames;
-            } 
+            }
         }
 
         private static void LoadMonsterNames()
@@ -34,13 +33,13 @@ namespace MonsterQuest
             string responseJson = requestTask.Result;
 
             AllMonstersResponse deserializedResponse = JsonConvert.DeserializeObject<AllMonstersResponse>(responseJson);
-            
+
             _monsterIndexEntries = new(deserializedResponse.Monsters);
 
             // Initialize array to size of all monsters
             _monsterIndexNames = new string[_monsterIndexEntries.Count];
             // Fill array with monster names
-            for(int i = 0; i< _monsterIndexEntries.Count; i++)
+            for (int i = 0; i < _monsterIndexEntries.Count; i++)
             {
                 _monsterIndexNames[i] = _monsterIndexEntries[i].Name;
             }
@@ -69,6 +68,7 @@ namespace MonsterQuest
             int wisdom = (int)monsterData["wisdom"];
             int charisma = (int)monsterData["charisma"];
             float challengeRating = (float)monsterData["challenge_rating"];
+            int experienceValue = (int)monsterData["xp"];
 
             // Add data to the scriptableObject (monsterType)
             monsterType.DisplayName = displayName;
@@ -77,10 +77,11 @@ namespace MonsterQuest
             monsterType.HpRoll = hpRoll;
             monsterType.AbilityScores = new(strength, dexterity, constitution, intelligence, wisdom, charisma);
             monsterType.ChallengeRating = challengeRating;
+            monsterType.ExperienceValue = experienceValue;
 
             Debug.Log($"Link to full Monster Data: [ https://www.dnd5eapi.co/api/monsters/{index} ]");
         }
-        
+
 
     }
     public class AllMonstersResponse
@@ -95,6 +96,6 @@ namespace MonsterQuest
         [JsonProperty("index")]
         public string Index { get; set; }
         [JsonProperty("name")]
-        public string Name {  get; set; }
+        public string Name { get; set; }
     }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   DisplayName: Troll
   SizeCategory: 4
   Alignment: Chaotic Evil
-  HpRoll: 8d10+40
+  HpRoll: 8d10
   ArmorType: {fileID: 11400000, guid: 2bcd03d9e66d6f94e856252275eacbe9, type: 2}
   WeaponTypes:
   - {fileID: 11400000, guid: dbff215e9b0137e4988472d780daebd2, type: 2}
@@ -35,3 +35,4 @@ MonoBehaviour:
     <Charisma>k__BackingField:
       <Score>k__BackingField: 7
   ChallengeRating: 5
+  ExperienceValue: 1800

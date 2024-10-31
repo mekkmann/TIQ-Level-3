@@ -9,7 +9,7 @@ namespace MonsterQuest
     [Serializable]
     public class Character : Creature
     {
-        // PROPERTIES
+        // PROPERTIES AND FIELDS
         public WeaponType WeaponType { get; set; }
         public ArmorType ArmorType { get; set; }
         private List<bool> _deathSavingThrows = new();
@@ -22,6 +22,9 @@ namespace MonsterQuest
             get { return Level; }
         }
         public ClassType ClassType { get; private set; }
+        public float CurrentExperiencePoints { get; private set; }
+        public int HitDiceMaximum { get; private set; }
+        public int HitDiceRemaining { get; private set; }
 
         // CONSTRUCTORS
         public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType, ClassType classType)
@@ -29,15 +32,14 @@ namespace MonsterQuest
         {
             WeaponType = weaponType;
             ArmorType = armorType;
-            HitPointsMaximum = hitPointsMaximum;
             ArmorClass = armorType.ArmorClass;
             ClassType = classType;
 
             List<int> abilityScores = new();
-            System.Random random = new ();
+            System.Random random = new();
             for (int i = 0; i < 6; i++)
             {
-                List<int> temp = new ();
+                List<int> temp = new();
                 for (int j = 0; j < 4; j++)
                 {
                     temp.Add(random.Next(1, 7));
@@ -48,9 +50,66 @@ namespace MonsterQuest
             }
             AbilityScores = new(abilityScores[0], abilityScores[1], abilityScores[2], abilityScores[3], abilityScores[4], abilityScores[5]);
             Level = 1;
+            HitDiceMaximum = Level;
+            HitDiceRemaining = HitDiceMaximum;
+            HitPointsMaximum = RollHitDie();
+            HitDiceRemaining++;
             Initialize();
         }
 
+        // METHODS
+        private int RollHitDie()
+        {
+            HitDiceRemaining--;
+            // assuming we're using class specific hit die
+            return DiceHelper.Roll(ClassType.HitDiceValue) + AbilityScores.Constitution.Modifier;
+        }
+        private IEnumerator LevelUp()
+        {
+            // Increase Level
+            Level++;
+            // Increase max hitpoints
+            int hitDieResult = RollHitDie();
+            HitPointsMaximum += hitDieResult > 1 ? hitDieResult : 1;
+            Console.WriteLine($"{DisplayName} levels up to level {Level}! Their maximum HP increases to {HitPointsMaximum}.");
+            // Increase MaximumHitDice by 1
+            HitDiceMaximum += 1;
+            yield return Presenter.LevelUp();
+
+        }
+        public IEnumerator GainExperiencePoints(float amount)
+        {
+            CurrentExperiencePoints += amount;
+            Presenter.GainExperiencePoints();
+            if (CurrentExperiencePoints >= LevelHelper.LevelRequirements[Level + 1])
+            {
+                yield return LevelUp();
+            }
+        }
+        public IEnumerator TakeShortRest()
+        {
+            if (HitPoints < HitPointsMaximum)
+            {
+                int toHeal = 0;
+                while (HitPoints + toHeal < HitPointsMaximum && HitDiceRemaining > 0)
+                {
+                    int hitDieResult = RollHitDie();
+                    toHeal += hitDieResult > 0 ? hitDieResult : 0;
+                }
+
+                // TODO: Figure out best way for heals to take place
+                yield return Heal(Mathf.Clamp(toHeal, 0, HitPointsMaximum - HitPoints));
+
+                if (HitPoints == HitPointsMaximum)
+                {
+                    Console.WriteLine($"{DisplayName} heals {HitPointsMaximum - HitPoints} and is at full health ({HitPoints}/{HitPointsMaximum}).");
+                }
+                else
+                {
+                    Console.WriteLine($"{DisplayName} heals {toHeal} and is at {HitPoints}/{HitPointsMaximum} health.");
+                }
+            }
+        }
         public override IEnumerator ReactToDamage(int damageAmount, bool wasCriticalHit)
         {
             if (LifeStatus == LifeStatus.Conscious)
@@ -64,10 +123,11 @@ namespace MonsterQuest
                     yield return Presenter.TakeDamage(true);
                     yield return Presenter.Die();
 
-                } else
+                }
+                else
                 {
                     HitPoints -= damageAmount;
-                    if(HitPoints <= 0)
+                    if (HitPoints <= 0)
                     {
                         HitPoints = 0;
                         LifeStatus = LifeStatus.UnconsciousUnstable;
@@ -77,15 +137,17 @@ namespace MonsterQuest
                     yield return Presenter.TakeDamage(false);
 
                 }
-            } else if (LifeStatus == LifeStatus.UnconsciousUnstable)
+            }
+            else if (LifeStatus == LifeStatus.UnconsciousUnstable)
             {
-                if (!wasCriticalHit) 
+                if (!wasCriticalHit)
                 {
                     DeathSavingThrowFailures++;
                     _deathSavingThrows.Add(false);
                     Console.WriteLine($"{DisplayName} fails a death saving throw");
                     yield return Presenter.PerformDeathSavingThrow(false);
-                } else
+                }
+                else
                 {
                     DeathSavingThrowFailures += 2;
                     _deathSavingThrows.Add(false);
@@ -115,12 +177,12 @@ namespace MonsterQuest
                 Ability ability = Ability.None;
                 if (WeaponType.IsFinesse)
                 {
-                        ability = AbilityScores[Ability.Strength] > AbilityScores[Ability.Dexterity]
-                            ? Ability.Strength : Ability.Dexterity;
+                    ability = AbilityScores[Ability.Strength] > AbilityScores[Ability.Dexterity]
+                        ? Ability.Strength : Ability.Dexterity;
                 }
                 action = new AttackAction(this, gameState.Combat.Monster, WeaponType, ability);
             }
-            
+
             if (LifeStatus == LifeStatus.UnconsciousUnstable)
             {
                 action = new BeUnconsciousAction(this);
@@ -131,6 +193,7 @@ namespace MonsterQuest
 
         public override IEnumerator Heal(int amount)
         {
+            // TODO: Unconscious characters dont automatically come back to "life" after healing
             yield return base.Heal(amount);
         }
 
@@ -146,7 +209,8 @@ namespace MonsterQuest
                 _deathSavingThrows.Add(false);
                 yield return Presenter.PerformDeathSavingThrow(false, roll);
                 Console.WriteLine($"{DisplayName} critically fails a death saving throw!");
-            } else if (roll == 20)
+            }
+            else if (roll == 20)
             {
                 yield return Presenter.PerformDeathSavingThrow(true, roll);
                 Console.WriteLine($"{DisplayName} critically succeeds a death saving throw and heals 1 HP!");
@@ -156,14 +220,16 @@ namespace MonsterQuest
                 LifeStatus = LifeStatus.Conscious;
                 Presenter.UpdateStableStatus();
                 yield break;
-            } else if (roll > 1 && roll < 10)
+            }
+            else if (roll > 1 && roll < 10)
             {
                 //  1 death saving failure
                 DeathSavingThrowFailures += 1;
                 _deathSavingThrows.Add(false);
                 yield return Presenter.PerformDeathSavingThrow(false, roll);
                 Console.WriteLine($"{DisplayName} fails a death saving throw");
-            } else
+            }
+            else
             {
                 // 1 death saving success
                 DeathSavingThrowSuccesses += 1;
@@ -200,8 +266,7 @@ namespace MonsterQuest
 
         public override bool IsProficientWithWeaponType(WeaponType type)
         {
-            Debug.Log(type.WeaponCategories.Any(wepType => ClassType.WeaponProficiencies.Contains(wepType)));
-            return type.WeaponCategories.Any( wepType => ClassType.WeaponProficiencies.Contains(wepType));
+            return type.WeaponCategories.Any(wepType => ClassType.WeaponProficiencies.Contains(wepType));
         }
     }
 }

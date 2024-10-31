@@ -34,3 +34,4 @@ MonoBehaviour:
     <Charisma>k__BackingField:
       <Score>k__BackingField: 20
   ChallengeRating: 20
+  ExperienceValue: 1000
