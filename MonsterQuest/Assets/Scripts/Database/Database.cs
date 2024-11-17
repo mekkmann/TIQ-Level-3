@@ -13,16 +13,18 @@ namespace MonsterQuest
         private static readonly List<MonsterType> _monsterTypes = new();
         private static readonly List<ItemType> _itemTypes = new();
         private static readonly List<ClassType> _classTypes = new();
-        
+        private static readonly List<RaceType> _raceTypes = new();
+
         private static readonly List<Sprite> _sprites = new();
         private static readonly List<Object> _allObjects = new();
-        
+
         private static readonly Dictionary<Object, string> _primaryKeysByAssets = new();
         private static readonly Dictionary<string, Object> _assetsByPrimaryKey = new();
 
         public static IEnumerable<MonsterType> MonsterTypes => _monsterTypes;
         public static IEnumerable<ItemType> ItemTypes => _itemTypes;
         public static IEnumerable<ClassType> ClassTypes => _classTypes;
+        public static IEnumerable<RaceType> RaceTypes => _raceTypes;
 
         public static IEnumerator Initialize()
         {
@@ -32,7 +34,8 @@ namespace MonsterQuest
             yield return LoadAssets(_monsterTypes);
             yield return LoadAssets(_itemTypes);
             yield return LoadAssets(_classTypes);
-            
+            yield return LoadAssets(_raceTypes);
+
             // We also load all Unity objects so they get their instanceIDs indexed. We need to load the
             // sprites first so they get registered before their textures (which have the same primary key).
             yield return LoadAssets(_sprites);
@@ -48,12 +51,16 @@ namespace MonsterQuest
         {
             return _itemTypes.First(item => item.DisplayName == displayName && item is T) as T;
         }
-        
+
         public static ClassType GetClassType(string displayName)
         {
             return _classTypes.First(characterClass => characterClass.DisplayName == displayName);
         }
-        
+        public static RaceType GetRaceType(string displayName)
+        {
+            return _raceTypes.First(race => race.DisplayName == displayName);
+        }
+
         public static string GetPrimaryKeyForAsset(Object asset)
         {
             if (!_primaryKeysByAssets.ContainsKey(asset))

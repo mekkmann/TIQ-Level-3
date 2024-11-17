@@ -22,19 +22,20 @@ namespace MonsterQuest
             get { return Level; }
         }
         public ClassType ClassType { get; private set; }
+        public RaceType RaceType { get; private set; }
         public float CurrentExperiencePoints { get; private set; }
         public int HitDiceMaximum { get; private set; }
         public int HitDiceRemaining { get; private set; }
 
         // CONSTRUCTORS
-        public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType, ClassType classType)
+        public Character(string displayName, int hitPointsMaximum, Sprite bodySprite, SizeCategory sizeCat, WeaponType weaponType, ArmorType armorType, ClassType classType, RaceType raceType)
             : base(displayName, bodySprite, sizeCat)
         {
             WeaponType = weaponType;
             ArmorType = armorType;
             ArmorClass = armorType.ArmorClass;
             ClassType = classType;
-
+            RaceType = raceType;
             List<int> abilityScores = new();
             System.Random random = new();
             for (int i = 0; i < 6; i++)
@@ -48,14 +49,32 @@ namespace MonsterQuest
                 int totalTemp = temp.Sum();
                 abilityScores.Add(totalTemp);
             }
+
+
             AbilityScores = new(abilityScores[0], abilityScores[1], abilityScores[2], abilityScores[3], abilityScores[4], abilityScores[5]);
+            RacialAbilityScoreIncrease();
             Level = 1;
             HitDiceMaximum = Level;
             HitPointsMaximum = RollHitDie();
             HitDiceRemaining = HitDiceMaximum;
             Initialize();
         }
-
+        private void RacialAbilityScoreIncrease()
+        {
+            if (RaceType.AbilityScoreToIncrease != Ability.All)
+            {
+                AbilityScores[RaceType.AbilityScoreToIncrease].Score += RaceType.IncreaseAbilityScoreBy;
+            }
+            else
+            {
+                AbilityScores[Ability.Strength].Score += RaceType.IncreaseAbilityScoreBy;
+                AbilityScores[Ability.Dexterity].Score += RaceType.IncreaseAbilityScoreBy;
+                AbilityScores[Ability.Constitution].Score += RaceType.IncreaseAbilityScoreBy;
+                AbilityScores[Ability.Intelligence].Score += RaceType.IncreaseAbilityScoreBy;
+                AbilityScores[Ability.Wisdom].Score += RaceType.IncreaseAbilityScoreBy;
+                AbilityScores[Ability.Charisma].Score += RaceType.IncreaseAbilityScoreBy;
+            }
+        }
         // METHODS
         private int RollHitDie()
         {

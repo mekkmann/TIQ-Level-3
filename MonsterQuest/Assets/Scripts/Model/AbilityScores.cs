@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MonsterQuest
@@ -13,7 +11,8 @@ namespace MonsterQuest
         Constitution,
         Intelligence,
         Wisdom,
-        Charisma
+        Charisma,
+        All
     }
 
     [Serializable]
