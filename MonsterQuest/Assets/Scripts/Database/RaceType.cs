@@ -11,7 +11,7 @@ namespace MonsterQuest
         public int IncreaseAbilityScoreBy;
         public SizeCategory SizeCategory;
         public int BaseMovementSpeed;
-        public List<string> Languages;
+        public List<Language> Languages;
 
         public RaceType(
             string displayName,
@@ -19,7 +19,7 @@ namespace MonsterQuest
             int increaseAbilityScoreBy,
             SizeCategory sizeCategory,
             int baseMovementSpeed,
-            List<string> languages)
+            List<Language> languages)
         {
             DisplayName = displayName;
             AbilityScoreToIncrease = abilityScoreToIncrease;

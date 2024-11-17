@@ -15,6 +15,18 @@ namespace MonsterQuest
         All
     }
 
+    public enum Language
+    {
+        Common,
+        Elvish,
+        Dwarvish,
+        Orcish,
+        Gnomish,
+        Infernal,
+        Draconic,
+        Halfling
+    }
+
     [Serializable]
     public class AbilityScores
     {
@@ -61,7 +73,7 @@ namespace MonsterQuest
         }
 
         // CONSTRUCTOR CHAINING
-        public AbilityScores(int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma) 
+        public AbilityScores(int strength, int dexterity, int constitution, int intelligence, int wisdom, int charisma)
             : this(new AbilityScore(strength), new AbilityScore(dexterity), new AbilityScore(constitution), new AbilityScore(intelligence), new AbilityScore(wisdom), new AbilityScore(charisma))
         {
             // EMPTY ON PURPOSE
