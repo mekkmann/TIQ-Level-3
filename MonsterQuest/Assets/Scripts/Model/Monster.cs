@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace MonsterQuest
@@ -14,13 +13,15 @@ namespace MonsterQuest
         public override IEnumerable<bool> DeathSavingThrows { get { return _deathSavingThrows; } protected set { } }
         public override int ArmorClass { get; set; }
 
-        public override AbilityScores AbilityScores { 
+        public override AbilityScores AbilityScores
+        {
             get
             {
                 return Type.AbilityScores;
-            } 
+            }
         }
-        protected override int ProficiencyBonusBase {
+        protected override int ProficiencyBonusBase
+        {
             get { return Convert.ToInt32(Type.ChallengeRating); }
         }
 
@@ -46,7 +47,8 @@ namespace MonsterQuest
             if (AbilityScores[Ability.Intelligence] > 7)
             {
                 target = aliveCharacters.OrderBy(chr => chr.HitPoints).First();
-            } else
+            }
+            else
             {
                 target = aliveCharacters.Random();
             }

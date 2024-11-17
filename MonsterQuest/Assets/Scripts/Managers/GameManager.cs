@@ -51,7 +51,7 @@ namespace MonsterQuest
             Party party = new(
                 new List<Character>() {
                     new("Assassin", 10, _characterSprites[0], SizeCategory.Medium, weapons[0], studdedLeather, Database.GetClassType("Fighter")),
-                    new("Mage", 10, _characterSprites[1], SizeCategory.Medium, weapons[1], studdedLeather, Database.GetClassType("Fighter")),
+                    new("Mage", 10, _characterSprites[1], SizeCategory.Medium, weapons[1], studdedLeather, Database.GetClassType("Wizard")),
                     new("Paladin", 10, _characterSprites[2], SizeCategory.Medium, weapons[2], studdedLeather, Database.GetClassType("Fighter")),
                     new("Warrior", 10, _characterSprites[3], SizeCategory.Medium, weapons[3], studdedLeather, Database.GetClassType("Fighter"))
                     }
@@ -82,7 +82,7 @@ namespace MonsterQuest
                 characterDisplayNames.Add(character.DisplayName);
             }
 
-            Console.WriteLine($"Fighters {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
+            Console.WriteLine($"Adventurers {StringHelper.JoinWithAnd(characterDisplayNames)} descend into the dungeon.\n");
 
             do
             {

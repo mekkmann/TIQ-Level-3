@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Fighter
   WeaponProficiencies: 0000000001000000
-  HitDiceValue: d10
+  HitDiceValue: 1d10
