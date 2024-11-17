@@ -52,15 +52,19 @@ namespace MonsterQuest
 
 
             AbilityScores = new(abilityScores[0], abilityScores[1], abilityScores[2], abilityScores[3], abilityScores[4], abilityScores[5]);
-            RacialAbilityScoreIncrease();
+            AddRacialAbilityScoreBonus();
             Level = 1;
             HitDiceMaximum = Level;
             HitPointsMaximum = RollHitDie();
             HitDiceRemaining = HitDiceMaximum;
             Initialize();
         }
-        private void RacialAbilityScoreIncrease()
+        private void AddRacialAbilityScoreBonus()
         {
+            if (RaceType.AbilityScoreToIncrease == Ability.None || RaceType.IncreaseAbilityScoreBy == 0)
+            {
+                return;
+            }
             if (RaceType.AbilityScoreToIncrease != Ability.All)
             {
                 AbilityScores[RaceType.AbilityScoreToIncrease].Score += RaceType.IncreaseAbilityScoreBy;
