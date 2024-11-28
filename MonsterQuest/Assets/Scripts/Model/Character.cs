@@ -215,7 +215,14 @@ namespace MonsterQuest
 
         public override IEnumerator Heal(int amount)
         {
-            // TODO: Unconscious characters dont automatically come back to "life" after healing
+            if (LifeStatus != LifeStatus.Conscious)
+            {
+                ResetDeathSavingThrows();
+                yield return Presenter.RegainConsciousness();
+                LifeStatus = LifeStatus.Conscious;
+                Presenter.UpdateStableStatus();
+            }
+
             yield return base.Heal(amount);
         }
 
@@ -236,11 +243,11 @@ namespace MonsterQuest
             {
                 yield return Presenter.PerformDeathSavingThrow(true, roll);
                 Console.WriteLine($"{DisplayName} critically succeeds a death saving throw and heals 1 HP!");
-                ResetDeathSavingThrows();
+                //ResetDeathSavingThrows();
                 yield return Heal(1);
-                yield return Presenter.RegainConsciousness();
-                LifeStatus = LifeStatus.Conscious;
-                Presenter.UpdateStableStatus();
+                //yield return Presenter.RegainConsciousness();
+                //LifeStatus = LifeStatus.Conscious;
+                //Presenter.UpdateStableStatus();
                 yield break;
             }
             else if (roll > 1 && roll < 10)
