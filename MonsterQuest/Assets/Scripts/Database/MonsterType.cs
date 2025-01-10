@@ -24,9 +24,9 @@ namespace MonsterQuest
             string alignment,
             string hpRoll,
             ArmorType armorType,
-            List<WeaponType> weaponTypes,
-            Sprite bodySprite,
-            AbilityScores abilityScores,
+            List<WeaponType> weaponTypes, 
+            Sprite bodySprite, // ask why it shows stacked in editor
+            AbilityScores abilityScores, 
             int challengeRating,
             int experienceValue
             )

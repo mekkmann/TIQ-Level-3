@@ -33,3 +33,5 @@ MonoBehaviour:
       <Score>k__BackingField: 13
     <Charisma>k__BackingField:
       <Score>k__BackingField: 10
+  ChallengeRating: 0
+  ExperienceValue: 0

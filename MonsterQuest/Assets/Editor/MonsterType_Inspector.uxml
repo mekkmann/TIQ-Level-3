@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:VisualElement name="NameAndSprite" style="flex-grow: 1;">
+        <uie:PropertyField name="Name" binding-path="DisplayName" label="Name" />
+        <uie:PropertyField name="Sprite" binding-path="BodySprite" label="Sprite" />
+    </ui:VisualElement>
+    <ui:VisualElement name="HpRollAndAlignment" style="flex-grow: 1;">
+        <uie:PropertyField name="HpRoll" binding-path="HpRoll" label="HP Roll" />
+        <uie:PropertyField name="Alignment" binding-path="Alignment" label="Alignment" />
+    </ui:VisualElement>
+    <ui:VisualElement name="ArmorAndSize" style="flex-grow: 1;">
+        <uie:PropertyField name="ArmorType" binding-path="ArmorType" label="Armor Type" />
+        <uie:PropertyField name="SizeCategory" binding-path="SizeCategory" label="Size Category" />
+    </ui:VisualElement>
+    <ui:VisualElement name="ExperienceAndChallenge" style="flex-grow: 1;">
+        <uie:PropertyField name="ExperienceValue" binding-path="ExperienceValue" label="Experience Value" />
+        <uie:PropertyField name="ChallengeRating" binding-path="ChallengeRating" label="Challenge Rating" />
+    </ui:VisualElement>
+    <uie:PropertyField name="WeaponTypes" binding-path="WeaponTypes" label="Weapon Types" />
+    <uie:PropertyField name="AbilityScores" binding-path="AbilityScores" label="Ability Scores" />
+</ui:UXML>

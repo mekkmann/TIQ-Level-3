@@ -24,12 +24,9 @@ namespace MonsterQuest
             VisualElement container = new();
 
             // Create drawer UI with C#
-            UnityEngine.UIElements.PopupWindow popup = new()
-            {
-                text = property.displayName,
-            };
+            UnityEngine.UIElements.PopupWindow popup = new();
             _property = property;
-            ScoreField = new(property.FindPropertyRelative("<Score>k__BackingField"), "Score");
+            ScoreField = new(property.FindPropertyRelative("<Score>k__BackingField"), property.displayName);
             popup.Add(ScoreField);
             ModifierLabel = new("(-10)");
             popup.Add(ModifierLabel);
@@ -55,10 +52,6 @@ namespace MonsterQuest
         {
             // works, but can I do it with the getter of Modifier???
             ModifierLabel.text = $"({Mathf.FloorToInt((property.FindPropertyRelative("<Score>k__BackingField").intValue - 10) / 2)})";
-
-            // Test
-
-
         }
     }
 }

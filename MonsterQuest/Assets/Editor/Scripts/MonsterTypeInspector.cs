@@ -16,24 +16,40 @@ namespace MonsterQuest
         public override VisualElement CreateInspectorGUI()
         {
             VisualElement root = new();
+            AddMonsterImportDropdown(root);
 
-            VisualElement importContainer = new();
-            importContainer.Add(new Label("Import Monster"));
+            AddUXML("MonsterType_Inspector", root);
+
+            //InspectorElement.FillDefaultInspector(root, serializedObject, this);
+
+            return root;
+        }
+
+        private void AddMonsterImportDropdown(VisualElement root)
+        {
+            UnityEngine.UIElements.PopupWindow popup = new() 
+            { 
+                text = "Monster Import"
+            };
             DropdownField dropDown = new();
             dropDown.choices.AddRange(MonsterTypeImporter.MonsterIndexNames);
             dropDown.RegisterValueChangedCallback(OnDropdownValueChanged);
-            importContainer.Add(dropDown);
+            popup.Add(dropDown);
 
-            root.Add(importContainer);
-
-            InspectorElement.FillDefaultInspector(root, serializedObject, this);
-
-            return root;
+            root.Add(popup);
         }
 
         private void OnDropdownValueChanged(ChangeEvent<string> changeEvent)
         {
             MonsterTypeImporter.ImportData(changeEvent.newValue, serializedObject.targetObject as MonsterType);
+        }
+
+        private void AddUXML(string uxmlName, VisualElement root)
+        {
+            VisualTreeAsset uiAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>($"Assets/Editor/{uxmlName}.uxml");
+            VisualElement ui = uiAsset.Instantiate();
+
+            root.Add(ui);
         }
     }
 }
