@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8606d8f037f6044d9302a4940cd6362, type: 3}
+  m_Name: Death Dog
+  m_EditorClassIdentifier: 
+  DisplayName: Death Dog
+  SizeCategory: 3
+  Alignment: neutral evil
+  HpRoll: 6d8+12
+  ArmorType: {fileID: 11400000, guid: 16ce103bfa077284f896c50627a0d8e1, type: 2}
+  WeaponTypes:
+  - {fileID: 11400000, guid: 15da4793b7954054bb3481d12ae14e85, type: 2}
+  BodySprite: {fileID: 21300000, guid: be6b94493bf524d42af900f092454db9, type: 3}
+  AbilityScores:
+    <Strength>k__BackingField:
+      <Score>k__BackingField: 15
+    <Dexterity>k__BackingField:
+      <Score>k__BackingField: 14
+    <Constitution>k__BackingField:
+      <Score>k__BackingField: 14
+    <Intelligence>k__BackingField:
+      <Score>k__BackingField: 3
+    <Wisdom>k__BackingField:
+      <Score>k__BackingField: 13
+    <Charisma>k__BackingField:
+      <Score>k__BackingField: 6
+  ChallengeRating: 1
+  ExperienceValue: 200
