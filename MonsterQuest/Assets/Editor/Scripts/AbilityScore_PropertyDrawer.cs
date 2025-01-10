@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace MonsterQuest
 {
-    //[CustomPropertyDrawer(typeof(AbilityScore))]
+    [CustomPropertyDrawer(typeof(AbilityScore))]
     public class AbilityScore_PropertyDrawer : PropertyDrawer
     {
         private SerializedProperty _property;

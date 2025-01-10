@@ -1,7 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Style src="project://database/Assets/Editor/AbilityScore_PrettyDisplay_USS.uss?fileID=7433441132597879392&amp;guid=fa65739611bf13b49998d3775022c71c&amp;type=3#AbilityScore_PrettyDisplay_USS" />
-    <ui:Label tabindex="-1" text="Ability Scores" parse-escape-sequences="true" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
-    <ui:GroupBox binding-path="Strength">
-        <ui:IntegerField binding-path="Score" label="Strength" readonly="false" />
-    </ui:GroupBox>
-</ui:UXML>
