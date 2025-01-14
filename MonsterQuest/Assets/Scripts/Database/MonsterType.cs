@@ -7,15 +7,19 @@ namespace MonsterQuest
     public class MonsterType : ScriptableObject
     {
         public string DisplayName;
-        public SizeCategory SizeCategory;
+        public Sprite BodySprite;
+
         public string Alignment;
         public string HpRoll;
+
         public ArmorType ArmorType;
-        public List<WeaponType> WeaponTypes;
-        public Sprite BodySprite;
-        public AbilityScores AbilityScores;
+        public SizeCategory SizeCategory;
+
         public float ChallengeRating;
         public int ExperienceValue;
+
+        public List<WeaponType> WeaponTypes;
+        public AbilityScores AbilityScores;
 
         // CONSTRUCTORS
         public MonsterType(
