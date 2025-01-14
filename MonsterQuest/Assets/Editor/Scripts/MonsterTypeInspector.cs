@@ -18,9 +18,7 @@ namespace MonsterQuest
             VisualElement root = new();
             AddMonsterImportDropdown(root);
 
-            AddUXML("MonsterType_Inspector", root);
-
-            //InspectorElement.FillDefaultInspector(root, serializedObject, this);
+            InspectorElement.FillDefaultInspector(root, serializedObject, this);
 
             return root;
         }

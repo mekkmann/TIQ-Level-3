@@ -18,24 +18,25 @@ namespace MonsterQuest
         private SerializedProperty _property;
         public PropertyField ScoreField;
         public Label ModifierLabel;
+
         public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
             // Create VisualElement to be the root of the property UI
             VisualElement container = new();
-
+            container.style.flexDirection = FlexDirection.Row;
+            container.style.justifyContent = Justify.SpaceBetween;
             // Create drawer UI with C#
-            UnityEngine.UIElements.PopupWindow popup = new();
             _property = property;
             ScoreField = new(property.FindPropertyRelative("<Score>k__BackingField"), property.displayName);
-            popup.Add(ScoreField);
+            ScoreField.style.width = new StyleLength(Length.Percent(80f)); 
             ModifierLabel = new("(-10)");
-            popup.Add(ModifierLabel);
-            container.Add(popup);
+            ModifierLabel.style.width = new StyleLength(Length.Percent(10f));
+            container.Add(ScoreField);
+            container.Add(ModifierLabel);
             OnValueChanged();
 
             return container;
         }
-
         public void OnValueChanged()
         {
             ModifierLabel.Unbind();
@@ -51,7 +52,8 @@ namespace MonsterQuest
         private void GetModifier(SerializedProperty property)
         {
             // works, but can I do it with the getter of Modifier???
-            ModifierLabel.text = $"({Mathf.FloorToInt((property.FindPropertyRelative("<Score>k__BackingField").intValue - 10) / 2)})";
+            int modifier = Mathf.FloorToInt((property.FindPropertyRelative("<Score>k__BackingField").intValue - 10) / 2);
+            ModifierLabel.text = $"({(modifier < 0 ? "- " : "+ ")}{modifier})";
         }
     }
 }
